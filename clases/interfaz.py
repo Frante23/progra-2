@@ -27,7 +27,7 @@ def generar_desierto():
     
     return matriz
 
-def dibujar_mapa_desierto(matriz):
+def dibujar_desierto(matriz):
     for fila in range(filas):
         for columna in range(columnas):
             if matriz[fila][columna] == 0:
@@ -44,6 +44,6 @@ while True:
             pygame.quit()
             sys.exit()
 
-    dibujar_mapa_desierto(matriz)
+    dibujar_desierto(matriz)
 
     pygame.display.flip()
