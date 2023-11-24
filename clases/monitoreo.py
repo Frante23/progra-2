@@ -10,7 +10,7 @@ class Monitoreo:
         }
         self.log.append(evento)
 
-    def herramientas_de_analisis(self):
+    def analisis(self):
         for evento in self.log:
             print(f"Evento: {evento['tipo_evento']}")
             print(f"Filas Afectadas: {evento['filas_afectadas']}")

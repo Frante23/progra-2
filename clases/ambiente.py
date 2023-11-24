@@ -65,7 +65,7 @@ def dibujar_desierto(matriz, eventos_registrados):
 
 matriz = generar_desierto()
 eventos = Eventos(filas, columnas)
-sistema_monitoreo = Monitoreo()
+monitoreo = Monitoreo()
 
 while True:
     for evento in pygame.event.get():
@@ -78,14 +78,14 @@ while True:
     filas_afectadas = eventos.filas_afectadas
     columnas_afectadas = eventos.columnas_afectadas
 
-    sistema_monitoreo.recopilar_datos(eventos.tipo_evento, filas_afectadas, columnas_afectadas)
+    monitoreo.recopilar_datos(eventos.tipo_evento, filas_afectadas, columnas_afectadas)
 
     ventana.fill((255, 255, 255))
     
-    dibujar_desierto(matriz, sistema_monitoreo.log)
+    dibujar_desierto(matriz, monitoreo.log)
     eventos.color(matriz)
 
-    if len(sistema_monitoreo.log) > 2:  
-        sistema_monitoreo.herramientas_de_analisis()
+    if len(monitoreo.log) > 2:  
+        monitoreo.analisis()
 
     pygame.display.flip()
