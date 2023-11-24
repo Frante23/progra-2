@@ -1,12 +1,18 @@
-class SistemaDeMonitoreo:
+class Monitoreo:
     def __init__(self):
+        self.log = []  
 
-        pass
+    def recopilar_datos(self, tipo_evento, filas_afectadas, columnas_afectadas):
+        evento = {
+            'tipo_evento': tipo_evento if tipo_evento else 'Evento Desconocido',  
+            'filas_afectadas': filas_afectadas,
+            'columnas_afectadas': columnas_afectadas,
+        }
+        self.log.append(evento)
 
-    def recopilar_datos(self, ecosistema):
-
-        pass
-
-    def herramientas_de_analisis(self, log):
-
-        pass
+    def herramientas_de_analisis(self):
+        for evento in self.log:
+            print(f"Evento: {evento['tipo_evento']}")
+            print(f"Filas Afectadas: {evento['filas_afectadas']}")
+            print(f"Columnas Afectadas: {evento['columnas_afectadas']}")
+            print("\n")
