@@ -1,5 +1,4 @@
-from clases.ambiente import Ecosistema
-from clases.interfaz import InterfazDeUsuario
-from clases.monitoreo import SistemaDeMonitoreo
+from clases.ambiente import *
+from clases.ecosistema import *
 
 # ... Código principal ...

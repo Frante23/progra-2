@@ -6,15 +6,15 @@ class Organismo:
         self.velocidad = velocidad
 
     def mover(self):
-        # Lógica de movimiento del organismo
+
         pass
 
     def reproducir(self, pareja):
-        # Lógica de reproducción
+
         pass
 
     def morir(self):
-        # Lógica de muerte
+
         pass
 
 class Animal(Organismo):
@@ -24,7 +24,7 @@ class Animal(Organismo):
         self.dieta = dieta
 
     def cazar(self, presa):
-        # Lógica de caza
+
         pass
 
 class Planta(Organismo):
@@ -32,9 +32,9 @@ class Planta(Organismo):
         super().__init__(posicion, vida, energia, velocidad)
 
     def fotosintesis(self):
-        # Lógica de fotosíntesis
+
         pass
 
     def reproducir_por_semillas(self):
-        # Lógica de reproducción por semillas
+
         pass
