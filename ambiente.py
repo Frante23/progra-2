@@ -29,7 +29,7 @@ def generar_desierto():
 
     return matriz
 
-def dibujar_desierto(matriz, eventos_registrados):
+def dibujar_desierto(matriz, eventos_registrados, nombre_evento):
     for fila in range(filas):
         for columna in range(columnas):
             x = columna * ancho_celda
@@ -56,7 +56,7 @@ def dibujar_desierto(matriz, eventos_registrados):
         pygame.draw.rect(ventana, (0, 0, 0), (0, i * ancho_celda, ancho, ancho_celda))
         
     for i, evento in enumerate(eventos_registrados):
-        mensaje = f"Evento {i + 1}: {evento['tipo_evento']}, Filas Afectadas: {evento['filas_afectadas']}, Columnas Afectadas: {evento['columnas_afectadas']}"
+        mensaje = f"Evento {i + 1}: {nombre_evento}, Filas Afectadas: {evento['filas_afectadas']}, Columnas Afectadas: {evento['columnas_afectadas']}"
         fuente = pygame.font.SysFont(None, 24)
         texto = fuente.render(mensaje, True, (255, 255, 255))
         ventana.blit(texto, (10, (filas + i) * ancho_celda))
@@ -80,10 +80,11 @@ while True:
 
     ventana.fill((255, 255, 255))
     
-    dibujar_desierto(matriz, monitoreo.log)
+    nombre_evento = eventos.obtener_nombre()
+    dibujar_desierto(matriz, monitoreo.log, nombre_evento)
     eventos.color(matriz)
 
-    if len(monitoreo.log) > 2:  
+    if len(monitoreo.log) > 2:
         monitoreo.analisis()
 
     pygame.display.flip()

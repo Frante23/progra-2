@@ -4,7 +4,7 @@ class Monitoreo:
 
     def recopilar_datos(self, tipo_evento, filas_afectadas, columnas_afectadas):
         evento = {
-            'tipo_evento': tipo_evento if tipo_evento else 'Evento Desconocido',  
+            'tipo_evento': tipo_evento ,  
             'filas_afectadas': filas_afectadas,
             'columnas_afectadas': columnas_afectadas,
         }

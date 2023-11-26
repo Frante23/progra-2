@@ -12,10 +12,15 @@ class Eventos:
         self.siguiente_tornado = pygame.time.get_ticks()
         self.filas_afectadas = set()
         self.columnas_afectadas = set()
-        self.tipo_evento = None
+        self.tipo_evento = set()
         self.tiempo_limpiar = None 
+        self.nombre_evento = None
+        
+    def obtener_nombre(self):
+        return self.nombre_evento
         
     def reiniciar_datos(self):
+        self.nombre_evento = None
         self.tiempo_impacto = None
         self.matriz_original = None
         self.filas_afectadas.clear()
@@ -79,6 +84,7 @@ class Eventos:
                 self.filas_afectadas.add(nueva_fila)
                 self.columnas_afectadas.add(nueva_columna)
                 self.tipo_evento = 'Meteorito'
+                self.nombre_evento = 'Meteorito'
                 print("Tipo de evento:", self.tipo_evento)
 
     def terremoto(self, matriz):
@@ -99,6 +105,7 @@ class Eventos:
                     self.columnas_afectadas.add(nueva_columna)
                     
                     self.tipo_evento = 'Terremoto'
+                    self.nombre_evento = 'Terremoto'
                     print("Tipo de evento:", self.tipo_evento)
                     
     def tornado(self, matriz):
@@ -118,6 +125,7 @@ class Eventos:
                     self.filas_afectadas.add(nueva_fila)
                     self.columnas_afectadas.add(nueva_columna)
                     self.tipo_evento = 'Tornado'
+                    self.nombre_evento = 'Tornado'
                     print("Tipo de evento:", self.tipo_evento)
 
 
