@@ -1,6 +1,6 @@
 class Monitoreo:
     def __init__(self):
-        self.log = []  
+        self.log = []   
 
     def recopilar_datos(self, tipo_evento, filas_afectadas, columnas_afectadas):
         evento = {

@@ -1,7 +1,7 @@
 import random
 import pygame.time
 
-class Eventos:
+class Eventos: 
     def __init__(self, filas, columnas):
         self.filas = filas
         self.columnas = columnas
@@ -13,27 +13,31 @@ class Eventos:
         self.filas_afectadas = set()
         self.columnas_afectadas = set()
         self.tipo_evento = None
-
+        self.tiempo_limpiar = None 
+        
     def reiniciar_datos(self):
         self.tiempo_impacto = None
         self.matriz_original = None
-        self.filas_afectadas = set()
-        self.columnas_afectadas = set()
+        self.filas_afectadas.clear()
+        self.columnas_afectadas.clear()
         self.tipo_evento = None
-        
+        self.tiempo_limpiar = None
+
     def evento_aleatorio(self, matriz):
+        if self.tiempo_limpiar is not None and pygame.time.get_ticks() - self.tiempo_limpiar >= 5000:
+            self.reiniciar_datos()
+        
         # Verifica si ha pasado 1 minuto desde el último meteorito
         if pygame.time.get_ticks() - self.siguiente_meteorito >= 15000:
-            self.reiniciar_datos()
-            self.tipo_evento = 'Meteorito'  # Añade esta línea
+            self.tipo_evento = 'Meteorito'  
             self.matriz_original = [fila[:] for fila in matriz]
             self.meteorito(matriz)
             self.tiempo_impacto = pygame.time.get_ticks()
             self.siguiente_meteorito = pygame.time.get_ticks()
+            
 
         # Verifica si han pasado 2 minutos desde el último terremoto
         if pygame.time.get_ticks() - self.siguiente_terremoto >= 120000:
-            self.reiniciar_datos()
             self.tipo_evento = 'Terremoto'
             self.matriz_original = [fila[:] for fila in matriz]
             self.terremoto(matriz)
@@ -42,7 +46,6 @@ class Eventos:
 
         # Verifica si ha pasado 1.30 minuto desde el último tornado
         if pygame.time.get_ticks() - self.siguiente_tornado >= 90000:
-            self.reiniciar_datos()
             self.tipo_evento = 'Tornado'
             self.matriz_original = [fila[:] for fila in matriz]
             self.tornado(matriz)
@@ -52,6 +55,11 @@ class Eventos:
         # Verifica si han pasado 10 segundos desde el impacto
         if self.tiempo_impacto is not None and pygame.time.get_ticks() - self.tiempo_impacto >= 10000:
             self.revertir_impacto(matriz)
+            
+        if self.tiempo_impacto is not None and pygame.time.get_ticks() - self.tiempo_impacto >= 5000:
+            self.filas_afectadas.clear()
+            self.columnas_afectadas.clear()
+            self.tiempo_limpiar = pygame.time.get_ticks()
 
     def meteorito(self, matriz):
         fila_meteorito = random.randint(0, self.filas - 1)
@@ -67,11 +75,11 @@ class Eventos:
                 if 0 <= nueva_fila < self.filas and 0 <= nueva_columna < self.columnas:
                     matriz[nueva_fila][nueva_columna] = 'impacto_meteorito'  
                     
-                    # Agrega las filas y columnas afectadas al registro
-                    self.filas_afectadas.add(nueva_fila)
-                    self.columnas_afectadas.add(nueva_columna)
-                    self.tipo_evento = 'Meteorito'
-                    print("Tipo de evento:", self.tipo_evento)
+                # Agrega las filas y columnas afectadas al registro
+                self.filas_afectadas.add(nueva_fila)
+                self.columnas_afectadas.add(nueva_columna)
+                self.tipo_evento = 'Meteorito'
+                print("Tipo de evento:", self.tipo_evento)
 
     def terremoto(self, matriz):
         fila_terremoto = random.randint(0, self.filas - 1)

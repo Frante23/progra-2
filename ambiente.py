@@ -1,6 +1,6 @@
 import pygame
 import sys
-import random
+import random  
 from eventos import Eventos
 from monitoreo import Monitoreo
 
@@ -56,12 +56,10 @@ def dibujar_desierto(matriz, eventos_registrados):
         pygame.draw.rect(ventana, (0, 0, 0), (0, i * ancho_celda, ancho, ancho_celda))
         
     for i, evento in enumerate(eventos_registrados):
-        tipo_evento = evento['tipo_evento'] if evento['tipo_evento'] else 'Evento Desconocido'  # Establecer un valor predeterminado si tipo_evento es None
-        mensaje = f"Evento {i + 1}: {tipo_evento}, Filas Afectadas: {evento['filas_afectadas']}, Columnas Afectadas: {evento['columnas_afectadas']}"
+        mensaje = f"Evento {i + 1}: {evento['tipo_evento']}, Filas Afectadas: {evento['filas_afectadas']}, Columnas Afectadas: {evento['columnas_afectadas']}"
         fuente = pygame.font.SysFont(None, 24)
         texto = fuente.render(mensaje, True, (255, 255, 255))
         ventana.blit(texto, (10, (filas + i) * ancho_celda))
-
 
 matriz = generar_desierto()
 eventos = Eventos(filas, columnas)
