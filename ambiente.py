@@ -49,7 +49,19 @@ def generar_desierto():
         for j in range(tamano_oasis):
             matriz[oasis_fila + i][oasis_columna + j] = 1
 
+    for _ in range(5):  
+        fila_planta = random.randint(0, filas - 1)
+        columna_planta = random.randint(0, columnas - 1)
+
+        while oasis_fila <= fila_planta < oasis_fila + tamano_oasis and oasis_columna <= columna_planta < oasis_columna + tamano_oasis:
+            fila_planta = random.randint(0, filas - 1)
+            columna_planta = random.randint(0, columnas - 1)
+
+        matriz[fila_planta][columna_planta] = 2  
+
     return matriz
+
+
 
 def dibujar_desierto(matriz, eventos_registrados, nombre_evento, planta1, planta2, planta3, planta4, planta5, animal1, animal2, animal3, animal4, animal5, presa1, presa2, presa3, presa4, presa5):
     for fila in range(filas):
@@ -60,6 +72,15 @@ def dibujar_desierto(matriz, eventos_registrados, nombre_evento, planta1, planta
                 pygame.draw.rect(ventana, (194, 178, 128), (x, y, ancho_celda, ancho_celda))
             elif matriz[fila][columna] == 1:
                 pygame.draw.rect(ventana, (0, 0, 255), (x, y, ancho_celda, ancho_celda))
+            elif matriz[fila][columna] == 2: 
+                planta_actual = None
+                for planta in [planta1, planta2, planta3, planta4, planta5]:
+                    if planta.posicion == (columna, fila):
+                        planta_actual = planta
+                        break
+
+                if planta_actual:
+                    ventana.blit(planta_actual.imagen, (x, y))
             elif matriz[fila][columna] == (255, 0, 0):  # color meteorito
                 pygame.draw.rect(ventana, (255, 0, 0), (x, y, ancho_celda, ancho_celda))
             elif matriz[fila][columna] == (139, 69, 19):  # color terremoto
@@ -112,10 +133,10 @@ while True:
             sys.exit()
 
     for animal in [animal1, animal2, animal3, animal4, animal5]:
-        animal.mover()
+        animal.mover(columnas, filas)
 
     for presa in [presa1, presa2, presa3, presa4, presa5]:
-        presa.mover()
+        presa.mover(columnas, filas)
 
     eventos.evento_aleatorio(matriz)
 

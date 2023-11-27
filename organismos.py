@@ -20,7 +20,7 @@ class Organismo:
         pass
 
 class Animal(Organismo):
-    def __init__(self, posicion, vida, energia, velocidad, especie, dieta,  imagen_path):
+    def __init__(self, posicion, vida, energia, velocidad, especie, dieta, imagen_path):
         super().__init__(posicion, vida, energia)
         self.velocidad = velocidad
         self.especie = especie
@@ -31,14 +31,20 @@ class Animal(Organismo):
         # Implementación de la acción de cazar
         pass
     
-    def mover(self):
-        # Mover el animal en una dirección aleatoria
+    def mover(self, limites_columnas, limites_filas):
+        # Mover el animal en una dirección aleatoria dentro de los límites
         nueva_posicion = (
             self.posicion[0] + random.choice([-1, 0, 1]) * self.velocidad,
             self.posicion[1] + random.choice([-1, 0, 1]) * self.velocidad
         )
-        self.posicion = nueva_posicion
 
+        # Aplicar límites de movimiento
+        nueva_posicion = (
+            max(0, min(nueva_posicion[0], limites_columnas - 1)),
+            max(0, min(nueva_posicion[1], limites_filas - 1))
+        )
+
+        self.posicion = nueva_posicion
         
 class Presa(Organismo):
     def __init__(self, posicion, vida, energia, velocidad, especie, plantas_alimento, imagen_path):
@@ -56,12 +62,19 @@ class Presa(Organismo):
         else:
             print(f"{self.__class__.__name__} no puede alimentarse de esta planta.")
             
-    def mover(self):
-        # Mover la presa en una dirección aleatoria
+    def mover(self, limites_columnas, limites_filas):
+        # Mover el animal en una dirección aleatoria dentro de los límites
         nueva_posicion = (
             self.posicion[0] + random.choice([-1, 0, 1]) * self.velocidad,
             self.posicion[1] + random.choice([-1, 0, 1]) * self.velocidad
         )
+
+        # Aplicar límites de movimiento
+        nueva_posicion = (
+            max(0, min(nueva_posicion[0], limites_columnas - 1)),
+            max(0, min(nueva_posicion[1], limites_filas - 1))
+        )
+
         self.posicion = nueva_posicion
         
         
