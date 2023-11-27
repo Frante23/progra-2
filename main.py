@@ -14,7 +14,7 @@ CELL_SIZE = 40
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("la nieee")
 
-fondo = pygame.image.load("imagen.jpeg")
+fondo = pygame.image.load("fondo.png")
 fondo = pygame.transform.scale(fondo, (WIDTH, HEIGHT))
 
 class Organismo(pygame.sprite.Sprite):
@@ -28,7 +28,7 @@ class Organismo(pygame.sprite.Sprite):
 
 class Animal(Organismo):
     def __init__(self, x, y):
-        super().__init__("cazador.jpeg", x, y)
+        super().__init__("cazador.png", x, y)
         self.detectado = False
 
     def escanear(self, presa):
