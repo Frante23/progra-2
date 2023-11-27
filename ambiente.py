@@ -51,7 +51,7 @@ def generar_desierto():
 
     return matriz
 
-def dibujar_desierto(matriz, eventos_registrados, nombre_evento, animal, planta):
+def dibujar_desierto(matriz, eventos_registrados, nombre_evento, planta1, planta2, planta3, planta4, planta5, animal1, animal2, animal3, animal4, animal5, presa1, presa2, presa3, presa4, presa5):
     for fila in range(filas):
         for columna in range(columnas):
             x = columna * ancho_celda
@@ -76,13 +76,24 @@ def dibujar_desierto(matriz, eventos_registrados, nombre_evento, animal, planta)
     for i in range(filas, filas + 2):
         pygame.draw.rect(ventana, (0, 0, 0), (0, i * ancho_celda, ancho, ancho_celda))
 
-    # Ajusta las coordenadas para posicionar las imágenes en la coordenada (0, 0)
-    x_animal, y_animal = (0, 0)
-    x_planta, y_planta = (0, 0)
+    ventana.blit(animal1.imagen, (animal1.posicion[0] * ancho_celda, animal1.posicion[1] * ancho_celda))
+    ventana.blit(animal2.imagen, (animal2.posicion[0] * ancho_celda, animal2.posicion[1] * ancho_celda))
+    ventana.blit(animal3.imagen, (animal3.posicion[0] * ancho_celda, animal3.posicion[1] * ancho_celda))
+    ventana.blit(animal4.imagen, (animal4.posicion[0] * ancho_celda, animal4.posicion[1] * ancho_celda))
+    ventana.blit(animal5.imagen, (animal5.posicion[0] * ancho_celda, animal5.posicion[1] * ancho_celda))
 
-    # Dibuja las imágenes en las coordenadas ajustadas
-    ventana.blit(animal.imagen, (x_animal, y_animal))
-    ventana.blit(planta.imagen, (x_planta, y_planta))
+    ventana.blit(presa1.imagen, (presa1.posicion[0] * ancho_celda, presa1.posicion[1] * ancho_celda))
+    ventana.blit(presa2.imagen, (presa2.posicion[0] * ancho_celda, presa2.posicion[1] * ancho_celda))
+    ventana.blit(presa3.imagen, (presa3.posicion[0] * ancho_celda, presa3.posicion[1] * ancho_celda))
+    ventana.blit(presa4.imagen, (presa4.posicion[0] * ancho_celda, presa4.posicion[1] * ancho_celda))
+    ventana.blit(presa5.imagen, (presa5.posicion[0] * ancho_celda, presa5.posicion[1] * ancho_celda))
+
+    ventana.blit(planta1.imagen, (planta1.posicion[0] * ancho_celda, planta1.posicion[1] * ancho_celda))
+    ventana.blit(planta2.imagen, (planta2.posicion[0] * ancho_celda, planta2.posicion[1] * ancho_celda))
+    ventana.blit(planta3.imagen, (planta3.posicion[0] * ancho_celda, planta3.posicion[1] * ancho_celda))
+    ventana.blit(planta4.imagen, (planta4.posicion[0] * ancho_celda, planta4.posicion[1] * ancho_celda))
+    ventana.blit(planta5.imagen, (planta5.posicion[0] * ancho_celda, planta5.posicion[1] * ancho_celda))
+
 
     for i, evento in enumerate(eventos_registrados):
         mensaje = f"Evento {i + 1}: {nombre_evento}, Filas Afectadas: {evento['filas_afectadas']}, Columnas Afectadas: {evento['columnas_afectadas']}"
@@ -117,7 +128,7 @@ while True:
     
     nombre_evento = eventos.obtener_nombre()
 
-    dibujar_desierto(matriz, monitoreo.log, nombre_evento, animal1, planta1)
+    dibujar_desierto(matriz, monitoreo.log, nombre_evento, planta1, planta2, planta3, planta4, planta5, animal1, animal2, animal3, animal4, animal5, presa1, presa2, presa3, presa4, presa5)
     eventos.color(matriz)
 
     if len(monitoreo.log) > 2:
