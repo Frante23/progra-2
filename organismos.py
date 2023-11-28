@@ -132,6 +132,11 @@ animal2 = Animal((10, 10), 100, 50, 5, "Coyote", "Carnívoro", "coyote.png")
 animal3 = Animal((10, 10), 100, 50, 5, "Serpiente", "Carnívoro", "serpiente.png")
 animal4 = Animal((10, 10), 100, 50, 5, "Escorpion", "Carnívoro", "escorpion.png")
 animal5 = Animal((10, 10), 100, 50, 5, "Caracal", "Carnívoro", "caracal.png")
+animal6 = Animal((10, 10), 100, 50, 5, "León", "Carnívoro", "leon.png")
+animal7 = Animal((10, 10), 100, 50, 5, "Coyote", "Carnívoro", "coyote.png")
+animal8 = Animal((10, 10), 100, 50, 5, "Serpiente", "Carnívoro", "serpiente.png")
+animal9 = Animal((10, 10), 100, 50, 5, "Escorpion", "Carnívoro", "escorpion.png")
+animal10 = Animal((10, 10), 100, 50, 5, "Caracal", "Carnívoro", "caracal.png")
 
 
 
@@ -140,6 +145,12 @@ presa2 = Presa((40, 40), 80, 50, 4, "Lagartija", [planta1, planta2], "lagartija.
 presa3 = Presa((40, 40), 80, 50, 4, "Pajaro", [planta1, planta2], "pajaro.png")
 presa4 = Presa((40, 40), 80, 50, 4, "Gacela",[planta1, planta2], "gacela.png")
 presa5 = Presa((40, 40), 80, 50, 4, "Tortuga",[planta1, planta2], "tortuga.png")
+presa6 = Presa((40, 40), 80, 50, 4, "Raton", [planta1, planta2], "raton.png")
+presa7 = Presa((40, 40), 80, 50, 4, "Lagartija", [planta1, planta2], "lagartija.png")
+presa8 = Presa((40, 40), 80, 50, 4, "Pajaro", [planta1, planta2], "pajaro.png")
+presa9 = Presa((40, 40), 80, 50, 4, "Gacela",[planta1, planta2], "gacela.png")
+presa10 = Presa((40, 40), 80, 50, 4, "Tortuga",[planta1, planta2], "tortuga.png")
+
 
 
 
