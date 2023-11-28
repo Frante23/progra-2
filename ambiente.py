@@ -43,6 +43,12 @@ planta4.imagen = pygame.transform.scale(planta4.imagen, (ancho_imagen_planta, al
 planta5.imagen = pygame.transform.scale(planta5.imagen, (ancho_imagen_planta, alto_imagen_planta))
 
 
+presa1.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
+presa2.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
+presa3.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
+presa4.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
+presa5.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
+
 planta1.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
 planta2.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
 planta3.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
@@ -110,12 +116,14 @@ def dibujar_desierto(matriz, eventos_registrados, nombre_evento, planta1, planta
     ventana.blit(planta5.imagen, (planta5.posicion[0] * ancho_celda, planta5.posicion[1] * ancho_celda))
 
 
-    for i, evento in enumerate(eventos_registrados):
-        mensaje = f"Evento {i + 1}: {nombre_evento}, Filas Afectadas: {evento['filas_afectadas']}, Columnas Afectadas: {evento['columnas_afectadas']}"
-        fuente = pygame.font.SysFont(None, 24)
-        texto = fuente.render(mensaje, True, (255, 255, 255))
-        ventana.blit(texto, (10, (filas + i) * ancho_celda))
+    if eventos_registrados:
+        ultimo_evento = eventos_registrados[-1]
+        mensaje_evento = f"Evento: {nombre_evento}, Filas Afectadas: {ultimo_evento['filas_afectadas']}, Columnas Afectadas: {ultimo_evento['columnas_afectadas']}"
+        fuente_evento = pygame.font.SysFont(None, 24)
+        texto_evento = fuente_evento.render(mensaje_evento, True, (255, 255, 255))
 
+        ventana.blit(texto_evento, (10, filas * ancho_celda))
+        
 matriz = generar_desierto()
 eventos = Eventos(filas, columnas)
 monitoreo = Monitoreo()
