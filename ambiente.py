@@ -115,8 +115,26 @@ while True:
             pygame.quit()
             sys.exit()
 
-    for animal in [animal1, animal2, animal3, animal4, animal5]:
+    for animal in animales:
         animal.mover(filas, columnas)
+
+    # Verificar reproducción entre animales
+    nuevos_animales = []
+    for animal1 in animales:
+        for animal2 in animales:
+            if animal1 != animal2:
+                info_nuevo_animal = animal1.reproducir(animal2)
+                if info_nuevo_animal is not None:
+                    # Usa 'imagen_path' del diccionario info_nuevo_animal
+                    nuevo_animal = Animal(**info_nuevo_animal)
+
+                    nuevos_animales.append(nuevo_animal)
+
+
+    # Agregar los nuevos animales al arreglo de animales
+    animales.extend(nuevos_animales)
+    
+    
     for presa in [presa1, presa2, presa3, presa4, presa5]:
         presa.mover(filas, columnas)
 

@@ -58,6 +58,22 @@ class Animal(Organismo):
         )
 
         self.posicion = nueva_posicion
+        
+    def reproducir(self, pareja):
+        imagenes = ["leon.png", "coyote.png", "serpiente.png", "escorpion.png", "caracal.png"]
+        if self.especie == pareja.especie:
+            distancia = abs(self.posicion[0] - pareja.posicion[0]) + abs(self.posicion[1] - pareja.posicion[1])
+            if distancia == 1:
+                return {
+                    'posicion': self.posicion,
+                    'vida': 100,
+                    'energia': 50,
+                    'velocidad': 5,
+                    'especie': self.especie,
+                    'dieta': self.dieta,
+                    'imagen_path': imagenes,  # Asegúrate de tener la ruta correcta
+                }
+        return None
 
 
 
