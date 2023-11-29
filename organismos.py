@@ -10,8 +10,8 @@ class Organismo:
         self.posicion = posicion
         self.vida = vida
         self.energia = energia
-        self.filas = filas
-        self.columnas = columnas
+        self.filas = int(filas) if filas is not None else None
+        self.columnas = int(columnas) if columnas is not None else None
 
     def mover(self, filas, columnas):  
         direccion = random.choice([(0, 1), (0, -1), (1, 0), (-1, 0)])
@@ -34,52 +34,43 @@ class Organismo:
         pass
 
 class Animal(Organismo):
-    imagen_path = None 
+    imagen_path = None  # Esto debe ser definido por las subclases
 
-    def __init__(self, posicion, vida, energia, velocidad, dieta, id_animal, imagen_path=None, filas=None, columnas=None):
+    def __init__(self, posicion, vida, energia, velocidad, dieta, id_animal, imagen_path, filas=None, columnas=None):
         super().__init__(posicion, vida, energia, filas=filas, columnas=columnas)
         self.velocidad = velocidad
         self.dieta = dieta
         self.id_animal = id_animal
 
+        # Escala la imagen al tamaño deseado
+        original_image = pygame.image.load(imagen_path)
+        self.imagen = pygame.transform.scale(original_image, (ancho_imagen, alto_imagen))  # Reemplaza nuevo_ancho y nuevo_alto con tus valores deseados
+
         if Animal.imagen_path is not None:
             self.imagen_path = Animal.imagen_path
-            self.imagen = pygame.transform.scale(pygame.image.load(self.imagen_path), (ancho_imagen, alto_imagen))
-        elif imagen_path is not None:
-            self.imagen_path = imagen_path
-            self.imagen = pygame.transform.scale(pygame.image.load(self.imagen_path), (ancho_imagen, alto_imagen))
-        else:
-            raise ValueError("La ruta de la imagen no está configurada para la clase Animal")
 
-    def reproducir(self, pareja):
+        self.imagen = pygame.transform.scale(pygame.image.load(self.imagen_path), (ancho_imagen, alto_imagen))
+
+    def reproducir(self, pareja, imagen_path):
         pass
-    
 class Leon(Animal):
-    imagen_path = "leon.png" 
+    imagen_path = "leon.png"
 
-    def __init__(self, posicion, vida, energia, velocidad, dieta, id_leon, imagen_path=None, filas=None, columnas=None):
+    def __init__(self, posicion, vida, energia, velocidad, dieta, id_leon, imagen_path, filas=20, columnas=30):
         super().__init__(posicion, vida, energia, velocidad, dieta, id_leon, imagen_path, filas=filas, columnas=columnas)
 
-    def cazar(self, presa):
-        pass
-
     def reproducir(self, pareja):
-        imagenes = [self.imagen_path]
-        if self.especie == pareja.especie:
-            distancia = abs(self.posicion[0] - pareja.posicion[0]) + abs(self.posicion[1] - pareja.posicion[1])
-            if distancia == 1:
-                return {
-                    'posicion': self.posicion,
-                    'vida': 100,
-                    'energia': 50,
-                    'velocidad': 5,
-                    'dieta': self.dieta,
-                    'imagen_path': imagenes,
-                    'id_animal': self.id_animal
-                }
-        return None
-    
+        if isinstance(pareja, Leon):
+            nuevo_leon = Leon(posicion=(0, 0), vida=100, energia=50, velocidad=8, dieta='carnivoro', id_leon=21, imagen_path="leon.png", filas=self.filas, columnas=self.columnas)
+            nuevo_leon.imagen = pygame.transform.scale(pygame.image.load("leon.png"), (ancho_imagen, alto_imagen))
+            return nuevo_leon
+        else:
+            return None
+
+        
 class Coyote(Animal):
+    imagen_path = "coyote.png"
+
     def __init__(self, posicion, vida, energia, velocidad, dieta, id_coyote, imagen_path=None, filas=None, columnas=None):
         super().__init__(posicion, vida, energia, velocidad, dieta, id_coyote, imagen_path, filas=filas, columnas=columnas)
         self.id_coyote = id_coyote
@@ -88,24 +79,17 @@ class Coyote(Animal):
         pass
 
     def reproducir(self, pareja):
-        imagenes = [self.imagen_path]
-        if self.especie == pareja.especie:
-            distancia = abs(self.posicion[0] - pareja.posicion[0]) + abs(self.posicion[1] - pareja.posicion[1])
-            if distancia == 1:
-                return {
-                    'posicion': self.posicion,
-                    'vida': 100,
-                    'energia': 50,
-                    'velocidad': 5,
-                    'dieta': self.dieta,
-                    'imagen_path': imagenes,
-                    'id_animal': self.id_animal
-                }
-        return None
-
+        if isinstance(pareja, Coyote):
+            nuevo_coyote = Coyote(posicion=(0, 0), vida=100, energia=50, velocidad=10, dieta='carnivoro', id_coyote=21, imagen_path="coyote.png", filas=self.filas, columnas=self.columnas)
+            nuevo_coyote.imagen = pygame.transform.scale(pygame.image.load("coyote.png"), (ancho_imagen, alto_imagen))
+            return nuevo_coyote
+        else:
+            return None
 
 
 class Serpiente(Animal):
+    imagen_path = "serpiente.png"
+
     def __init__(self, posicion, vida, energia, velocidad, dieta, id_serpiente, imagen_path=None, filas=None, columnas=None):
         super().__init__(posicion, vida, energia, velocidad, dieta, id_serpiente, imagen_path, filas=filas, columnas=columnas)
         self.id_serpiente = id_serpiente
@@ -114,71 +98,54 @@ class Serpiente(Animal):
         pass
 
     def reproducir(self, pareja):
-        imagenes = [self.imagen_path]
-        if self.especie == pareja.especie:
-            distancia = abs(self.posicion[0] - pareja.posicion[0]) + abs(self.posicion[1] - pareja.posicion[1])
-            if distancia == 1:
-                return {
-                    'posicion': self.posicion,
-                    'vida': 100,
-                    'energia': 50,
-                    'velocidad': 5,
-                    'dieta': self.dieta,
-                    'imagen_path': imagenes,
-                    'id_animal': self.id_animal
-                }
-        return None
+        if isinstance(pareja, Serpiente):
+            nuevo_serpiente = Serpiente(posicion=(0, 0), vida=80, energia=40, velocidad=5, dieta='carnivoro', id_serpiente=21, imagen_path="serpiente.png", filas=self.filas, columnas=self.columnas)
+            nuevo_serpiente.imagen = pygame.transform.scale(pygame.image.load("serpiente.png"), (ancho_imagen, alto_imagen))
+            return nuevo_serpiente
+        else:
+            return None
+
 
 
     
 class Escorpion(Animal):
-    def __init__(self, posicion, vida, energia, velocidad, dieta, id_escorpion, imagen_path=None):
-        super().__init__(posicion, vida, energia, velocidad, dieta, id_escorpion, imagen_path)
+    imagen_path = "escorpion.png"
+
+    def __init__(self, posicion, vida, energia, velocidad, dieta, id_escorpion, imagen_path=None, filas=None, columnas=None):
+        super().__init__(posicion, vida, energia, velocidad, dieta, id_escorpion, imagen_path, filas=filas, columnas=columnas)
         self.id_escorpion = id_escorpion
 
     def cazar(self, presa):
         pass
 
     def reproducir(self, pareja):
-        imagenes = [self.imagen_path]
-        if self.especie == pareja.especie:
-            distancia = abs(self.posicion[0] - pareja.posicion[0]) + abs(self.posicion[1] - pareja.posicion[1])
-            if distancia == 1:
-                return {
-                    'posicion': self.posicion,
-                    'vida': 100,
-                    'energia': 50,
-                    'velocidad': 5,
-                    'dieta': self.dieta,
-                    'imagen_path': imagenes,
-                    'id_animal': self.id_animal
-                }
-        return None
+        if isinstance(pareja, Escorpion):
+            nuevo_escorpion = Escorpion(posicion=(0, 0), vida=70, energia=35, velocidad=8, dieta='carnivoro', id_escorpion=11, imagen_path="escorpion.png", filas=self.filas, columnas=self.columnas)
+            nuevo_escorpion.imagen = pygame.transform.scale(pygame.image.load("escorpion.png"), (ancho_imagen, alto_imagen))
+            return nuevo_escorpion
+        else:
+            return None
+
+
 
     
 class Caracal(Animal):
-    def __init__(self, posicion, vida, energia, velocidad, dieta, id_caracal, imagen_path=None):
-        super().__init__(posicion, vida, energia, velocidad, dieta, id_caracal, imagen_path)
+    imagen_path = "caracal.png"
+
+    def __init__(self, posicion, vida, energia, velocidad, dieta, id_caracal, imagen_path=None, filas=None, columnas=None):
+        super().__init__(posicion, vida, energia, velocidad, dieta, id_caracal, imagen_path, filas=filas, columnas=columnas)
         self.id_caracal = id_caracal
 
     def cazar(self, presa):
         pass
 
     def reproducir(self, pareja):
-        imagenes = [self.imagen_path]
-        if self.especie == pareja.especie:
-            distancia = abs(self.posicion[0] - pareja.posicion[0]) + abs(self.posicion[1] - pareja.posicion[1])
-            if distancia == 1:
-                return {
-                    'posicion': self.posicion,
-                    'vida': 100,
-                    'energia': 50,
-                    'velocidad': 5,
-                    'dieta': self.dieta,
-                    'imagen_path': imagenes,
-                    'id_animal': self.id_animal
-                }
-        return None
+        if isinstance(pareja, Caracal):
+            nuevo_caracal = Caracal(posicion=(0, 0), vida=90, energia=45, velocidad=12, dieta='carnivoro', id_caracal=21, imagen_path="caracal.png", filas=self.filas, columnas=self.columnas)
+            nuevo_caracal.imagen = pygame.transform.scale(pygame.image.load("caracal.png"), (ancho_imagen, alto_imagen))
+            return nuevo_caracal
+        else:
+            return None
 
 
 class Presa(Organismo):
@@ -204,11 +171,23 @@ class Presa(Organismo):
 
         self.posicion = nueva_posicion
     
+    def reproducir(self, pareja):
+        # Implementa la lógica de reproducción aquí
+        pass
+    
 class Raton(Presa):
     def __init__(self, posicion, vida, energia, velocidad, plantas_alimento, imagen_path, id_raton):
         super().__init__(posicion, vida, energia, velocidad, plantas_alimento, imagen_path)
         self.id_raton = id_raton
 
+    def reproducir(self, pareja):
+        if isinstance(pareja, Raton):
+            # Lógica de reproducción de ratones
+            nuevo_raton = Raton(posicion=(0, 0), vida=30, energia=20, velocidad=5, plantas_alimento=(planta1, planta2, planta3, planta4, planta5), imagen_path="raton.png", id_raton=22)
+            nuevo_raton.imagen = pygame.transform.scale(pygame.image.load("raton.png"), (ancho_imagen, alto_imagen))  # Ajusta las dimensiones
+            return nuevo_raton
+        else:
+            return None
 
 class Lagartija(Presa):
     def __init__(self, posicion, vida, energia, velocidad, plantas_alimento, imagen_path, id_lagartija):
@@ -257,8 +236,8 @@ planta3 = Planta((20, 20), 50, 30, 20, "Salsola","salsola.png")
 planta4 = Planta((30, 30), 40, 25, 20, "Yuca","yuca.png")
 planta5 = Planta((20, 20), 40, 25, 20, "Atriplex","atriplex.png")
 
-leon1 = Leon((20, 20), 100, 50, 8, 'carnivoro', 1, "leon.png", filas=filas, columnas=columnas)
-leon2 = Leon((15, 15), 100, 50, 8, 'carnivoro', 2, "leon.png", filas=filas, columnas=columnas)
+leon1 = Leon((20, 20), 100, 50, 8, 'carnivoro', 1, "leon.png", filas=30, columnas=columnas)
+leon2 = Leon((15, 15), 100, 50, 8, 'carnivoro', 2, "leon.png", columnas=columnas)
 coyote1 = Coyote((8, 8), 100, 50, 10, 'carnivoro', 3, "coyote.png", filas=filas, columnas=columnas)
 coyote2 = Coyote((12, 12), 100, 50, 10, 'carnivoro', 4, "coyote.png", filas=filas, columnas=columnas)
 serpiente1 = Serpiente((5, 5), 80, 40, 5, 'carnivoro', 5, "serpiente.png", filas=filas, columnas=columnas)
@@ -278,4 +257,3 @@ gacela1 = Gacela((8, 8), 60, 35, 15, (planta1, planta2, planta3, planta4, planta
 gacela2 = Gacela((12, 12), 60, 35, 15, (planta1, planta2, planta3, planta4, planta5), "gacela.png", 18)
 tortuga1 = Tortuga((10, 10), 70, 40, 5, (planta1, planta2, planta3, planta4, planta5), "tortuga.png", 19)
 tortuga2 = Tortuga((20, 20), 70, 40, 5, (planta1, planta2, planta3, planta4, planta5), "tortuga.png", 20)
-

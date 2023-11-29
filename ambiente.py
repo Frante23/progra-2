@@ -102,6 +102,7 @@ def dibujar_desierto(matriz, eventos_registrados, nombre_evento, plantas, organi
 matriz = generar_desierto()
 eventos = Eventos(filas, columnas)
 monitoreo = Monitoreo()
+tasa_reproduccion = 0.2
 
 while True:
     for evento in pygame.event.get():
@@ -113,6 +114,14 @@ while True:
 
     for organismo in organismos:
         organismo.mover(filas, columnas)
+
+    for organismo in organismos:
+        if random.random() < tasa_reproduccion:  # Define tu propia tasa de reproducción
+            pareja = random.choice(organismos)  # Elige una pareja aleatoria
+            nuevo_organismo = organismo.reproducir(pareja)
+
+            if nuevo_organismo is not None:
+                organismos.append(nuevo_organismo)
 
     filas_afectadas = eventos.filas_afectadas
     columnas_afectadas = eventos.columnas_afectadas
