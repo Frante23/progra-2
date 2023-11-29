@@ -55,6 +55,7 @@ class Animal(Organismo):
         pass
 class Leon(Animal):
     imagen_path = "leon.png"
+    nombre = "Leon"
 
     def __init__(self, posicion, vida, energia, velocidad, dieta, id_leon, imagen_path, filas=20, columnas=30):
         super().__init__(posicion, vida, energia, velocidad, dieta, id_leon, imagen_path, filas=filas, columnas=columnas)
@@ -71,6 +72,7 @@ class Leon(Animal):
         
 class Coyote(Animal):
     imagen_path = "coyote.png"
+    nombre = "Coyote"
 
     def __init__(self, posicion, vida, energia, velocidad, dieta, id_coyote, imagen_path=None, filas=None, columnas=None):
         super().__init__(posicion, vida, energia, velocidad, dieta, id_coyote, imagen_path, filas=filas, columnas=columnas)
@@ -91,6 +93,7 @@ class Coyote(Animal):
 
 class Serpiente(Animal):
     imagen_path = "serpiente.png"
+    nombre = "Serpiente"
 
     def __init__(self, posicion, vida, energia, velocidad, dieta, id_serpiente, imagen_path=None, filas=None, columnas=None):
         super().__init__(posicion, vida, energia, velocidad, dieta, id_serpiente, imagen_path, filas=filas, columnas=columnas)
@@ -113,6 +116,7 @@ class Serpiente(Animal):
     
 class Escorpion(Animal):
     imagen_path = "escorpion.png"
+    nombre = "Escorpion"
 
     def __init__(self, posicion, vida, energia, velocidad, dieta, id_escorpion, imagen_path=None, filas=None, columnas=None):
         super().__init__(posicion, vida, energia, velocidad, dieta, id_escorpion, imagen_path, filas=filas, columnas=columnas)
@@ -135,6 +139,7 @@ class Escorpion(Animal):
     
 class Caracal(Animal):
     imagen_path = "caracal.png"
+    nombre = "Caracal"
 
     def __init__(self, posicion, vida, energia, velocidad, dieta, id_caracal, imagen_path=None, filas=None, columnas=None):
         super().__init__(posicion, vida, energia, velocidad, dieta, id_caracal, imagen_path, filas=filas, columnas=columnas)
@@ -181,6 +186,7 @@ class Presa(Organismo):
         pass
     
 class Raton(Presa):
+    nombre = "Raton"
     def __init__(self, posicion, vida, energia, velocidad, plantas_alimento, imagen_path, id_raton):
         super().__init__(posicion, vida, energia, velocidad, plantas_alimento, imagen_path)
         self.id_raton = id_raton
@@ -196,6 +202,7 @@ class Raton(Presa):
             return None
 
 class Lagartija(Presa):
+    nombre = "Lagartija"
     def __init__(self, posicion, vida, energia, velocidad, plantas_alimento, imagen_path, id_lagartija):
         super().__init__(posicion, vida, energia, velocidad, plantas_alimento, imagen_path)
         self.id_lagartija = id_lagartija
@@ -211,6 +218,7 @@ class Lagartija(Presa):
             return None
 
 class Pajaro(Presa):
+    nombre = "Pajaro"
     def __init__(self, posicion, vida, energia, velocidad, plantas_alimento, imagen_path, id_pajaro):
         super().__init__(posicion, vida, energia, velocidad, plantas_alimento, imagen_path)
         self.id_pajaro = id_pajaro
@@ -225,6 +233,7 @@ class Pajaro(Presa):
             return None
 
 class Gacela(Presa):
+    nombre = "Gacela"
     def __init__(self, posicion, vida, energia, velocidad, plantas_alimento, imagen_path, id_gacela):
         super().__init__(posicion, vida, energia, velocidad, plantas_alimento, imagen_path)
         self.id_gacela = id_gacela
@@ -239,6 +248,7 @@ class Gacela(Presa):
             return None
 
 class Tortuga(Presa):
+    nombre = "Tortuga"
     def __init__(self, posicion, vida, energia, velocidad, plantas_alimento, imagen_path, id_tortuga):
         super().__init__(posicion, vida, energia, velocidad, plantas_alimento, imagen_path)
         self.id_tortuga = id_tortuga

@@ -40,6 +40,8 @@ button_rect.x += 120
 button_terremoto = pygame_gui.elements.UIButton(relative_rect=button_rect, text='Terremoto', manager=evento_manager)
 button_rect.x += 120
 button_tornado = pygame_gui.elements.UIButton(relative_rect=button_rect, text='Tornado', manager=evento_manager)
+button_rect.x += 120
+button_grafico = pygame_gui.elements.UIButton(relative_rect=button_rect, text='Grafico', manager=evento_manager)
 
 
 plantas = [planta1, planta2, planta3, planta4, planta5]
@@ -122,6 +124,7 @@ matriz = generar_desierto()
 eventos = Eventos(filas, columnas)
 monitoreo = Monitoreo()
 tasa_reproduccion = 0.2
+mostrar_grafico = False
 
 while True:
     for event in pygame.event.get():
@@ -137,23 +140,21 @@ while True:
                 if event.ui_element == button_meteorito:
                     eventos.tipo_evento = 'Meteorito'
                     eventos.matriz_original = [fila[:] for fila in matriz]
-                    eventos.meteorito(matriz, organismos)  # Asegúrate de incluir 'organismos'
+                    eventos.meteorito(matriz, organismos)
                     eventos.tiempo_impacto = pygame.time.get_ticks()
-
                 elif event.ui_element == button_terremoto:
                     eventos.tipo_evento = 'Terremoto'
                     eventos.matriz_original = [fila[:] for fila in matriz]
-                    eventos.terremoto(matriz, organismos)  # Asegúrate de incluir 'organismos'
+                    eventos.terremoto(matriz, organismos)
                     eventos.tiempo_impacto = pygame.time.get_ticks()
-
                 elif event.ui_element == button_tornado:
                     eventos.tipo_evento = 'Tornado'
                     eventos.matriz_original = [fila[:] for fila in matriz]
-                    eventos.tornado(matriz, organismos)  # Asegúrate de incluir 'organismos'
+                    eventos.tornado(matriz, organismos)
                     eventos.tiempo_impacto = pygame.time.get_ticks()
-
-    # ...
-
+                elif event.ui_element == button_grafico:
+                    # Marcar que se debe mostrar el gráfico
+                    mostrar_grafico = True
 
     evento_manager.update(30)
 
@@ -174,6 +175,7 @@ while True:
     columnas_afectadas = eventos.columnas_afectadas
 
     monitoreo.recopilar_datos(eventos.tipo_evento, filas_afectadas, columnas_afectadas)
+    monitoreo.analisis(organismos)
 
     ventana.fill((255, 255, 255))
 
@@ -182,9 +184,17 @@ while True:
     dibujar_desierto(matriz, monitoreo.log, nombre_evento, plantas, organismos)
     eventos.color(matriz)
 
+    # Verificar si se debe mostrar el gráfico
+    if mostrar_grafico:
+        # Lógica para mostrar el gráfico (por ejemplo, utilizando Pygame y Matplotlib)
+        especies, cantidades = monitoreo.contar_especies(organismos)
+        monitoreo.mostrar_grafico_en_evento(especies, cantidades)
+        # Reiniciar la bandera después de mostrar el gráfico
+        mostrar_grafico = False
+
     if len(monitoreo.log) > 2:
         monitoreo.analisis()
 
     evento_manager.draw_ui(ventana)
     pygame.display.flip()
-    pygame.time.Clock().tick(1)
+    pygame.time.Clock().tick(30)
