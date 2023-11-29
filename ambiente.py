@@ -168,6 +168,11 @@ while True:
 
             if nuevo_organismo is not None:
                 organismos.append(nuevo_organismo)
+                
+    for planta in plantas:
+        nueva_planta = planta.semillas()
+        if nueva_planta is not None:
+            plantas.append(nueva_planta)
 
     filas_afectadas = eventos.filas_afectadas
     columnas_afectadas = eventos.columnas_afectadas

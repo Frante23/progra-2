@@ -111,9 +111,6 @@ class Serpiente(Animal):
         else:
             return None
 
-
-
-    
 class Escorpion(Animal):
     imagen_path = "escorpion.png"
     nombre = "Escorpion"
@@ -274,20 +271,105 @@ class Planta(Organismo):
             print(f"Error cargando la imagen {imagen_path}: {e}")
 
 
+class Cactus(Planta):
+    nombre="Cactus"
+    def __init__(self, posicion, vida, energia, filas, imagen_path):
+        super().__init__(posicion, vida, energia, filas, nombre="Cactus", imagen_path=imagen_path)
+
     def fotosintesis(self):
-        # Lógica de la fotosíntesis
+        # Implementa la lógica específica para la fotosíntesis del cactus
         pass
 
-    def reproducir_por_semillas(self):
-        # Lógica de la reproducción por semillas
+    def semillas(self):
+        if random.random() < 0.08:  # Probabilidad de reproducción por semillas del cactus
+            nueva_posicion = (self.posicion[0] + random.randint(-1, 1), self.posicion[1] + random.randint(-1, 1))
+            nueva_planta = Cactus(posicion=nueva_posicion, vida=100, energia=50, filas=self.filas, imagen_path=self.imagen_path)
+            nueva_planta.imagen = pygame.transform.scale(pygame.image.load("cactus.png"), (ancho_imagen, alto_imagen))  # Ajusta las dimensiones
+            return nueva_planta
+        else:
+            return None
+
+
+class Artemisa(Planta):
+    nombre="Artemisa"
+    def __init__(self, posicion, vida, energia, filas, imagen_path):
+        super().__init__(posicion, vida, energia, filas, nombre="Artemisa", imagen_path=imagen_path)
+
+    def fotosintesis(self):
+        # Implementa la lógica específica para la fotosíntesis de la artemisa
         pass
 
+    def semillas(self):
+        if random.random() < 0.08:  # Probabilidad de reproducción por semillas del cactus
+            nueva_posicion = (self.posicion[0] + random.randint(-1, 1), self.posicion[1] + random.randint(-1, 1))
+            nueva_planta = Artemisa(posicion=nueva_posicion, vida=100, energia=50, filas=self.filas, imagen_path=self.imagen_path)
+            nueva_planta.imagen = pygame.transform.scale(pygame.image.load("artemisa.png"), (ancho_imagen, alto_imagen))  # Ajusta las dimensiones
+            return nueva_planta
+        else:
+            return None
 
-planta1 = Planta((20, 20), 50, 30, 20, "Cactus", "cactus.png")
-planta2 = Planta((15, 25), 40, 25, 20, "Artemisa", "artemisa.png")
-planta3 = Planta((20, 20), 50, 30, 20, "Salsola","salsola.png")
-planta4 = Planta((30, 30), 40, 25, 20, "Yuca","yuca.png")
-planta5 = Planta((20, 20), 40, 25, 20, "Atriplex","atriplex.png")
+
+class Salsola(Planta):
+    nombre="Salsola"
+    def __init__(self, posicion, vida, energia, filas, imagen_path):
+        super().__init__(posicion, vida, energia, filas, nombre="Salsola", imagen_path=imagen_path)
+
+    def fotosintesis(self):
+        # Implementa la lógica específica para la fotosíntesis de la salsola
+        pass
+
+    def semillas(self):
+        if random.random() < 0.08:  # Probabilidad de reproducción por semillas del cactus
+            nueva_posicion = (self.posicion[0] + random.randint(-1, 1), self.posicion[1] + random.randint(-1, 1))
+            nueva_planta = Salsola(posicion=nueva_posicion, vida=100, energia=50, filas=self.filas, imagen_path=self.imagen_path)
+            nueva_planta.imagen = pygame.transform.scale(pygame.image.load("salsola.png"), (ancho_imagen, alto_imagen))  # Ajusta las dimensiones
+            return nueva_planta
+        else:
+            return None
+
+
+class Yuca(Planta):
+    nombre="Yuca"
+    def __init__(self, posicion, vida, energia, filas, imagen_path):
+        super().__init__(posicion, vida, energia, filas, nombre="Yuca", imagen_path=imagen_path)
+
+    def fotosintesis(self):
+        # Implementa la lógica específica para la fotosíntesis de la yuca
+        pass
+
+    def semillas(self):
+        if random.random() < 0.08:  # Probabilidad de reproducción por semillas del cactus
+            nueva_posicion = (self.posicion[0] + random.randint(-1, 1), self.posicion[1] + random.randint(-1, 1))
+            nueva_planta = Yuca(posicion=nueva_posicion, vida=100, energia=50, filas=self.filas, imagen_path=self.imagen_path)
+            nueva_planta.imagen = pygame.transform.scale(pygame.image.load("yuca.png"), (ancho_imagen, alto_imagen))  # Ajusta las dimensiones
+            return nueva_planta
+        else:
+            return None
+
+
+class Atriplex(Planta):
+    nombre="Atriplex"
+    def __init__(self, posicion, vida, energia, filas, imagen_path):
+        super().__init__(posicion, vida, energia, filas, nombre="Atriplex", imagen_path=imagen_path)
+
+    def fotosintesis(self):
+        # Implementa la lógica específica para la fotosíntesis de la atriplex
+        pass
+
+    def semillas(self):
+        if random.random() < 0.08:  # Probabilidad de reproducción por semillas del cactus
+            nueva_posicion = (self.posicion[0] + random.randint(-1, 1), self.posicion[1] + random.randint(-1, 1))
+            nueva_planta = Atriplex(posicion=nueva_posicion, vida=100, energia=50, filas=self.filas, imagen_path=self.imagen_path)
+            nueva_planta.imagen = pygame.transform.scale(pygame.image.load("atriplex.png"), (ancho_imagen, alto_imagen))  # Ajusta las dimensiones
+            return nueva_planta
+        else:
+            return None
+
+planta1 = Cactus((20, 20), 50, 30, 20, "cactus.png")
+planta2 = Artemisa((15, 25), 40, 25, 20, "artemisa.png")
+planta3 = Salsola((20, 20), 50, 30, 20,"salsola.png")
+planta4 = Yuca((30, 30), 40, 25, 20, "yuca.png")
+planta5 = Atriplex((20, 20), 40, 25, 20, "atriplex.png")
 
 leon1 = Leon((20, 20), 100, 50, 8, 'carnivoro', 1, "leon.png", filas=30, columnas=columnas)
 leon2 = Leon((15, 15), 100, 50, 8, 'carnivoro', 2, "leon.png", columnas=columnas)
