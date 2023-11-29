@@ -3,14 +3,29 @@ import random
 
 ancho_imagen = 30
 alto_imagen = 30
+filas = 20
+columnas = 30
 class Organismo:
-    def __init__(self, posicion, vida, energia):
+    def __init__(self, posicion, vida, energia, filas=None, columnas=None):
         self.posicion = posicion
         self.vida = vida
         self.energia = energia
+        self.filas = filas
+        self.columnas = columnas
 
-    def mover(self, filas, columnas):
-        pass
+    def mover(self, filas, columnas):  
+        direccion = random.choice([(0, 1), (0, -1), (1, 0), (-1, 0)])
+        nueva_posicion = (self.posicion[0] + direccion[0], self.posicion[1] + direccion[1])
+
+        if (
+            self.columnas is not None and
+            self.filas is not None and
+            0 <= nueva_posicion[0] < self.columnas and
+            0 <= nueva_posicion[1] < self.filas
+        ):
+            self.posicion = nueva_posicion
+
+
 
     def reproducir(self, pareja):
         pass
@@ -19,10 +34,10 @@ class Organismo:
         pass
 
 class Animal(Organismo):
-    imagen_path = None  # Atributo de clase para la ruta de imagen compartida
+    imagen_path = None 
 
-    def __init__(self, posicion, vida, energia, velocidad, dieta, id_animal, imagen_path=None):
-        super().__init__(posicion, vida, energia)
+    def __init__(self, posicion, vida, energia, velocidad, dieta, id_animal, imagen_path=None, filas=None, columnas=None):
+        super().__init__(posicion, vida, energia, filas=filas, columnas=columnas)
         self.velocidad = velocidad
         self.dieta = dieta
         self.id_animal = id_animal
@@ -38,11 +53,12 @@ class Animal(Organismo):
 
     def reproducir(self, pareja):
         pass
+    
 class Leon(Animal):
-    imagen_path = "leon.png"  # Ruta de imagen para la clase Leon
+    imagen_path = "leon.png" 
 
-    def __init__(self, posicion, vida, energia, velocidad, dieta, id_leon, imagen_path=None):
-        super().__init__(posicion, vida, energia, velocidad, dieta, id_leon, imagen_path)
+    def __init__(self, posicion, vida, energia, velocidad, dieta, id_leon, imagen_path=None, filas=None, columnas=None):
+        super().__init__(posicion, vida, energia, velocidad, dieta, id_leon, imagen_path, filas=filas, columnas=columnas)
 
     def cazar(self, presa):
         pass
@@ -64,8 +80,8 @@ class Leon(Animal):
         return None
     
 class Coyote(Animal):
-    def __init__(self, posicion, vida, energia, velocidad, dieta, id_coyote, imagen_path=None):
-        super().__init__(posicion, vida, energia, velocidad, dieta, id_coyote, imagen_path)
+    def __init__(self, posicion, vida, energia, velocidad, dieta, id_coyote, imagen_path=None, filas=None, columnas=None):
+        super().__init__(posicion, vida, energia, velocidad, dieta, id_coyote, imagen_path, filas=filas, columnas=columnas)
         self.id_coyote = id_coyote
 
     def cazar(self, presa):
@@ -88,9 +104,10 @@ class Coyote(Animal):
         return None
 
 
+
 class Serpiente(Animal):
-    def __init__(self, posicion, vida, energia, velocidad, dieta, id_serpiente, imagen_path=None):
-        super().__init__(posicion, vida, energia, velocidad, dieta, id_serpiente, imagen_path)
+    def __init__(self, posicion, vida, energia, velocidad, dieta, id_serpiente, imagen_path=None, filas=None, columnas=None):
+        super().__init__(posicion, vida, energia, velocidad, dieta, id_serpiente, imagen_path, filas=filas, columnas=columnas)
         self.id_serpiente = id_serpiente
 
     def cazar(self, presa):
@@ -111,6 +128,7 @@ class Serpiente(Animal):
                     'id_animal': self.id_animal
                 }
         return None
+
 
     
 class Escorpion(Animal):
@@ -214,31 +232,37 @@ class Tortuga(Presa):
 
 
 class Planta(Organismo):
-    def __init__(self, posicion, vida, energia, especie, imagen_path):
-        super().__init__(posicion, vida, energia)
-        self.especie= especie
-        self.imagen = pygame.image.load(imagen_path)
+    def __init__(self, posicion, vida, energia, filas, nombre, imagen_path):
+        super().__init__(posicion, vida, energia, filas)
+        self.nombre = nombre
+        self.imagen_path = imagen_path
+        try:
+            self.imagen = pygame.image.load(imagen_path)
+        except pygame.error as e:
+            print(f"Error cargando la imagen {imagen_path}: {e}")
+
 
     def fotosintesis(self):
-
+        # Lógica de la fotosíntesis
         pass
 
     def reproducir_por_semillas(self):
-
+        # Lógica de la reproducción por semillas
         pass
 
-planta1 = Planta((20, 20), 50, 30, "Cactus", "cactus.png")
-planta2 = Planta((30, 30), 60, 40, "Artemisa","artemisa.png")
-planta3 = Planta((20, 20), 50, 30, "Salsola","salsola.png")
-planta4 = Planta((30, 30), 60, 40, "Yuca","yuca.png")
-planta5 = Planta((20, 20), 50, 30, "Atriplex","atriplex.png")
 
-leon1 = Leon((10, 10), 100, 50, 8, 'carnivoro', 1, "leon.png")
-leon2 = Leon((15, 15), 100, 50, 8, 'carnivoro', 2, "leon.png")
-coyote1 = Coyote((8, 8), 100, 50, 10, 'carnivoro', 3, "coyote.png")
-coyote2 = Coyote((12, 12), 100, 50, 10, 'carnivoro', 4, "coyote.png")
-serpiente1 = Serpiente((5, 5), 80, 40, 5, 'carnivoro', 5, "serpiente.png")
-serpiente2 = Serpiente((10, 10), 80, 40, 5, 'carnivoro', 6, "serpiente.png")
+planta1 = Planta((20, 20), 50, 30, 20, "Cactus", "cactus.png")
+planta2 = Planta((15, 25), 40, 25, 20, "Artemisa", "artemisa.png")
+planta3 = Planta((20, 20), 50, 30, 20, "Salsola","salsola.png")
+planta4 = Planta((30, 30), 40, 25, 20, "Yuca","yuca.png")
+planta5 = Planta((20, 20), 40, 25, 20, "Atriplex","atriplex.png")
+
+leon1 = Leon((20, 20), 100, 50, 8, 'carnivoro', 1, "leon.png", filas=filas, columnas=columnas)
+leon2 = Leon((15, 15), 100, 50, 8, 'carnivoro', 2, "leon.png", filas=filas, columnas=columnas)
+coyote1 = Coyote((8, 8), 100, 50, 10, 'carnivoro', 3, "coyote.png", filas=filas, columnas=columnas)
+coyote2 = Coyote((12, 12), 100, 50, 10, 'carnivoro', 4, "coyote.png", filas=filas, columnas=columnas)
+serpiente1 = Serpiente((5, 5), 80, 40, 5, 'carnivoro', 5, "serpiente.png", filas=filas, columnas=columnas)
+serpiente2 = Serpiente((10, 10), 80, 40, 5, 'carnivoro', 6, "serpiente.png", filas=filas, columnas=columnas)
 caracal1 = Caracal((7, 7), 90, 45, 12, 'carnivoro', 7, "caracal.png")
 caracal2 = Caracal((15, 15), 90, 45, 12, 'carnivoro', 8, "caracal.png")
 escorpion1 = Escorpion((3, 3), 70, 35, 8, 'carnivoro', 9, "escorpion.png")
