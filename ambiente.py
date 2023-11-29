@@ -1,6 +1,7 @@
 import pygame
 import sys
 import random
+import time
 from eventos import Eventos
 from monitoreo import Monitoreo
 from organismos import planta1, planta2, planta3, planta4, planta5
@@ -18,10 +19,10 @@ ancho = columnas * ancho_celda
 alto = (filas + 2) * ancho_celda
 
 
-ancho_imagen = 20
-alto_imagen = 20
-ancho_imagen_planta = 15
-alto_imagen_planta = 15
+ancho_imagen = 30
+alto_imagen = 30
+ancho_imagen_planta = 30
+alto_imagen_planta = 30
 
 animal1.imagen = pygame.transform.scale(animal1.imagen, (ancho_imagen, alto_imagen))
 animal2.imagen = pygame.transform.scale(animal2.imagen, (ancho_imagen, alto_imagen))
@@ -48,8 +49,14 @@ planta3.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1
 planta4.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
 planta5.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
 
+presa1.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
+presa2.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
+presa3.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
+presa4.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
+presa5.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
+
 ventana = pygame.display.set_mode((ancho, alto))
-pygame.display.set_caption('Desierto Épico')
+pygame.display.set_caption('desierto epico')
 
 def generar_desierto():
     matriz = [[0] * columnas for _ in range(filas)]
@@ -119,23 +126,25 @@ matriz = generar_desierto()
 eventos = Eventos(filas, columnas)
 monitoreo = Monitoreo()
 
-while True:
-    for evento in pygame.event.get():
-        if evento.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
 
-    for animal in [animal1, animal2, animal3, animal4, animal5]:
-        animal.mover(filas, columnas)
+
+
+presas = [planta1, planta2, planta3, planta4, planta5]
+
+
+
+for animal in [animal1, animal2, animal3, animal4, animal5]:
+    animal.mover()
+    animal.cazar(presas)  
+
+
     for presa in [presa1, presa2, presa3, presa4, presa5]:
         presa.mover(filas, columnas)
-
-    eventos.evento_aleatorio(matriz)
 
     filas_afectadas = eventos.filas_afectadas
     columnas_afectadas = eventos.columnas_afectadas
 
-    monitoreo.recopilar_datos(eventos.tipo_evento, filas_afectadas, columnas_afectadas)
+
 
     ventana.fill((255, 255, 255))
 
@@ -148,4 +157,4 @@ while True:
         monitoreo.analisis()
 
     pygame.display.flip()
-    pygame.time.Clock().tick(10)
+    pygame.time.Clock().tick(1)

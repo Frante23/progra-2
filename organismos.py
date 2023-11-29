@@ -1,5 +1,7 @@
 import pygame
 import random
+import time
+import sys
 
 class Organismo:
     def __init__(self, posicion, vida, energia):
@@ -8,18 +10,20 @@ class Organismo:
         self.energia = energia
 
     def mover(self):
-
         pass
 
     def reproducir(self, pareja):
-
         pass
 
     def morir(self):
-
-        pass
+        self.posicion = (-1, -1)
+        time.sleep(5)
+        self.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
 
 class Animal(Organismo):
+    filas = 20
+    columnas = 30
+
     def __init__(self, posicion, vida, energia, velocidad, especie, dieta, imagen_path):
         super().__init__(posicion, vida, energia)
         self.velocidad = velocidad
@@ -27,71 +31,70 @@ class Animal(Organismo):
         self.dieta = dieta
         self.imagen = pygame.image.load(imagen_path)
 
-    def cazar(self, presa):
-
-        pass
-    
-    def mover(self, filas, columnas):
-
+    def cazar(self, presas):
         nueva_posicion = (
-            self.posicion[0] + random.choice([-1, 0, 1]) * self.velocidad,
-            self.posicion[1] + random.choice([-1, 0, 1]) * self.velocidad
+            self.posicion[0] + random.choice([-1, 0, 1]),
+            self.posicion[1] + random.choice([-1, 0, 1])
         )
-        self.posicion = nueva_posicion
-    
-        if not (0 <= self.posicion[0] < filas and 0 <= self.posicion[1] < columnas):
 
-            self.posicion = (
-                max(0, min(self.posicion[0], filas - 1)),
-                max(0, min(self.posicion[1], columnas - 1))
+        if 0 <= nueva_posicion[0] < self.filas and 0 <= nueva_posicion[1] < self.columnas:
+            self.posicion = nueva_posicion
+
+        for presa in presas:
+            nueva_posicion_presa = (
+                presa.posicion[0] + random.choice([-1, 0, 1]),
+                presa.posicion[1] + random.choice([-1, 0, 1])
             )
 
-        
+            if 0 <= nueva_posicion_presa[0] < self.filas and 0 <= nueva_posicion_presa[1] < self.columnas:
+                presa.posicion = nueva_posicion_presa
+        def mover(self):
+            nueva_posicion = (
+                self.posicion[0] + random.choice([-1, 0, 1]),
+                self.posicion[1] + random.choice([-1, 0, 1])
+            )
+
+            if 0 <= nueva_posicion[0] < self.filas and 0 <= nueva_posicion[1] < self.columnas:
+                self.posicion = nueva_posicion
+
+
 class Presa(Organismo):
     def __init__(self, posicion, vida, energia, velocidad, especie, plantas_alimento, imagen_path):
         super().__init__(posicion, vida, energia)
         self.velocidad = velocidad
-        self.especie= especie
+        self.especie = especie
         self.plantas_alimento = plantas_alimento
         self.imagen = pygame.image.load(imagen_path)
 
     def alimentarse(self, planta):
-        if planta in self.plantas_alimento:
+        if planta.posicion == self.posicion:
             self.energia += planta.energia
-            planta.morir() 
+            planta.morir()
             print(f"{self.__class__.__name__} se ha alimentado y ganó energía.")
         else:
             print(f"{self.__class__.__name__} no puede alimentarse de esta planta.")
-            
-    def mover(self, filas, columnas):
-       
-        nueva_posicion = (
-            self.posicion[0] + random.choice([-1, 0, 1]) * self.velocidad,
-            self.posicion[1] + random.choice([-1, 0, 1]) * self.velocidad
-        )
-        self.posicion = nueva_posicion
-       
-        if not (0 <= self.posicion[0] < filas and 0 <= self.posicion[1] < columnas):
 
-            self.posicion = (
-                max(0, min(self.posicion[0], filas - 1)),
-                max(0, min(self.posicion[1], columnas - 1))
-            )
-        self.posicion = nueva_posicion
-        
+    def mover(self, filas, columnas):
+        nueva_posicion = (
+            self.posicion[0] + random.choice([-1, 0, 1]),
+            self.posicion[1] + random.choice([-1, 0, 1])
+        )
+
+        if 0 <= nueva_posicion[0] < filas and 0 <= nueva_posicion[1] < columnas:
+            self.posicion = nueva_posicion
 
 class Planta(Organismo):
+
+    
     def __init__(self, posicion, vida, energia, especie, imagen_path):
         super().__init__(posicion, vida, energia)
-        self.especie= especie
+        self.especie = especie
         self.imagen = pygame.image.load(imagen_path)
 
     def fotosintesis(self):
-
         pass
 
     def reproducir_por_semillas(self):
-
         pass
 
 planta1 = Planta((20, 20), 50, 30, "Cactus", "cactus.png")
