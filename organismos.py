@@ -193,21 +193,54 @@ class Lagartija(Presa):
     def __init__(self, posicion, vida, energia, velocidad, plantas_alimento, imagen_path, id_lagartija):
         super().__init__(posicion, vida, energia, velocidad, plantas_alimento, imagen_path)
         self.id_lagartija = id_lagartija
+        
+    def reproducir(self, pareja):
+        if isinstance(pareja, Lagartija):
+            # Lógica de reproducción de ratones
+            nuevo_lagartija = Lagartija(posicion=(0, 0), vida=30, energia=20, velocidad=5, plantas_alimento=(planta1, planta2, planta3, planta4, planta5), imagen_path="lagartija.png", id_lagartija=22)
+            nuevo_lagartija.imagen = pygame.transform.scale(pygame.image.load("lagartija.png"), (ancho_imagen, alto_imagen))  # Ajusta las dimensiones
+            return nuevo_lagartija
+        else:
+            return None
 
 class Pajaro(Presa):
     def __init__(self, posicion, vida, energia, velocidad, plantas_alimento, imagen_path, id_pajaro):
         super().__init__(posicion, vida, energia, velocidad, plantas_alimento, imagen_path)
         self.id_pajaro = id_pajaro
+    def reproducir(self, pareja):
+        if isinstance(pareja, Pajaro):
+            # Lógica de reproducción de ratones
+            nuevo_pajaro = Pajaro(posicion=(0, 0), vida=30, energia=20, velocidad=5, plantas_alimento=(planta1, planta2, planta3, planta4, planta5), imagen_path="pajaro.png", id_pajaro=22)
+            nuevo_pajaro.imagen = pygame.transform.scale(pygame.image.load("pajaro.png"), (ancho_imagen, alto_imagen))  # Ajusta las dimensiones
+            return nuevo_pajaro
+        else:
+            return None
 
 class Gacela(Presa):
     def __init__(self, posicion, vida, energia, velocidad, plantas_alimento, imagen_path, id_gacela):
         super().__init__(posicion, vida, energia, velocidad, plantas_alimento, imagen_path)
         self.id_gacela = id_gacela
+    def reproducir(self, pareja):
+        if isinstance(pareja, Gacela):
+            # Lógica de reproducción de ratones
+            nuevo_gacela = Gacela(posicion=(0, 0), vida=30, energia=20, velocidad=5, plantas_alimento=(planta1, planta2, planta3, planta4, planta5), imagen_path="gacela.png", id_gacela=22)
+            nuevo_gacela.imagen = pygame.transform.scale(pygame.image.load("gacela.png"), (ancho_imagen, alto_imagen))  # Ajusta las dimensiones
+            return nuevo_gacela
+        else:
+            return None
 
 class Tortuga(Presa):
     def __init__(self, posicion, vida, energia, velocidad, plantas_alimento, imagen_path, id_tortuga):
         super().__init__(posicion, vida, energia, velocidad, plantas_alimento, imagen_path)
         self.id_tortuga = id_tortuga
+    def reproducir(self, pareja):
+        if isinstance(pareja, Tortuga):
+            # Lógica de reproducción de ratones
+            nuevo_tortuga = Tortuga(posicion=(0, 0), vida=30, energia=20, velocidad=5, plantas_alimento=(planta1, planta2, planta3, planta4, planta5), imagen_path="tortuga.png", id_tortuga=22)
+            nuevo_tortuga.imagen = pygame.transform.scale(pygame.image.load("tortuga.png"), (ancho_imagen, alto_imagen))  # Ajusta las dimensiones
+            return nuevo_tortuga
+        else:
+            return None
 
 
 class Planta(Organismo):
