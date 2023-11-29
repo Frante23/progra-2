@@ -4,9 +4,8 @@ import random
 import time
 from eventos import Eventos
 from monitoreo import Monitoreo
-from organismos import planta1, planta2, planta3, planta4, planta5
-from organismos import animal1, animal2, animal3, animal4, animal5
-from organismos import presa1, presa2, presa3, presa4, presa5
+from organismos import planta1, planta2, planta3, planta4, planta5, leon1, leon2, coyote1, coyote2, serpiente1, serpiente2, caracal1, caracal2, escorpion1, escorpion2, raton1, raton2, lagartija1, lagartija2, pajaro1, pajaro2, gacela1, gacela2, tortuga1, tortuga2
+
 
 pygame.init()
 
@@ -18,43 +17,27 @@ tamano_oasis = 5
 ancho = columnas * ancho_celda
 alto = (filas + 2) * ancho_celda
 
-
-ancho_imagen = 30
-alto_imagen = 30
 ancho_imagen_planta = 30
 alto_imagen_planta = 30
+ancho_imagen = 30
+alto_imagen = 30
 
-animal1.imagen = pygame.transform.scale(animal1.imagen, (ancho_imagen, alto_imagen))
-animal2.imagen = pygame.transform.scale(animal2.imagen, (ancho_imagen, alto_imagen))
-animal3.imagen = pygame.transform.scale(animal3.imagen, (ancho_imagen, alto_imagen))
-animal4.imagen = pygame.transform.scale(animal4.imagen, (ancho_imagen, alto_imagen))
-animal5.imagen = pygame.transform.scale(animal5.imagen, (ancho_imagen, alto_imagen))
+plantas = [planta1, planta2, planta3, planta4, planta5]
+organismos = [leon1, leon2, coyote1, coyote2, serpiente1, serpiente2, caracal1, caracal2, escorpion1, escorpion2, raton1, raton2, lagartija1, lagartija2, pajaro1, pajaro2, gacela1, gacela2, tortuga1, tortuga2]
 
-presa1.imagen = pygame.transform.scale(presa1.imagen, (ancho_imagen, alto_imagen))
-presa2.imagen = pygame.transform.scale(presa2.imagen, (ancho_imagen, alto_imagen))
-presa3.imagen = pygame.transform.scale(presa3.imagen, (ancho_imagen, alto_imagen))
-presa4.imagen = pygame.transform.scale(presa4.imagen, (ancho_imagen, alto_imagen))
-presa5.imagen = pygame.transform.scale(presa5.imagen, (ancho_imagen, alto_imagen))
-
-planta1.imagen = pygame.transform.scale(planta1.imagen, (ancho_imagen_planta, alto_imagen_planta))
-planta2.imagen = pygame.transform.scale(planta2.imagen, (ancho_imagen_planta, alto_imagen_planta))
-planta3.imagen = pygame.transform.scale(planta3.imagen, (ancho_imagen_planta, alto_imagen_planta))
-planta4.imagen = pygame.transform.scale(planta4.imagen, (ancho_imagen_planta, alto_imagen_planta))
-planta5.imagen = pygame.transform.scale(planta5.imagen, (ancho_imagen_planta, alto_imagen_planta))
-
-
-planta1.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
-planta2.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
-planta3.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
-planta4.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
-planta5.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
-
-presa1.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
-presa2.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
-presa3.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
-presa4.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
-presa5.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
-
+for planta in plantas:
+    planta.imagen = pygame.transform.scale(planta.imagen, (ancho_imagen_planta, alto_imagen_planta))
+    
+for planta in plantas:
+    planta.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
+    
+for organismo in organismos:
+    organismo.imagen = pygame.transform.scale(organismo.imagen, (ancho_imagen, alto_imagen))
+    
+for organismo in organismos:
+    organismo.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
+    
+    
 ventana = pygame.display.set_mode((ancho, alto))
 pygame.display.set_caption('desierto epico')
 
@@ -70,7 +53,8 @@ def generar_desierto():
 
     return matriz
 
-def dibujar_desierto(matriz, eventos_registrados, nombre_evento, planta1, planta2, planta3, planta4, planta5, animal1, animal2, animal3, animal4, animal5, presa1, presa2, presa3, presa4, presa5):
+def dibujar_desierto(matriz, eventos_registrados, nombre_evento, plantas, organismos):
+
     for fila in range(filas):
         for columna in range(columnas):
             x = columna * ancho_celda
@@ -96,61 +80,45 @@ def dibujar_desierto(matriz, eventos_registrados, nombre_evento, planta1, planta
         pygame.draw.rect(ventana, (0, 0, 0), (0, i * ancho_celda, ancho, ancho_celda))
 
 
-    ventana.blit(animal1.imagen, (animal1.posicion[0] * ancho_celda, animal1.posicion[1] * ancho_celda))
-    ventana.blit(animal2.imagen, (animal2.posicion[0] * ancho_celda, animal2.posicion[1] * ancho_celda))
-    ventana.blit(animal3.imagen, (animal3.posicion[0] * ancho_celda, animal3.posicion[1] * ancho_celda))
-    ventana.blit(animal4.imagen, (animal4.posicion[0] * ancho_celda, animal4.posicion[1] * ancho_celda))
-    ventana.blit(animal5.imagen, (animal5.posicion[0] * ancho_celda, animal5.posicion[1] * ancho_celda))
+    for planta in plantas:
+        posicion = (planta.posicion[0] * ancho_celda, planta.posicion[1] * ancho_celda)
+        ventana.blit(planta.imagen, posicion)
+        
+    for organismo in organismos:
+        posicion = (organismo.posicion[0] * ancho_celda, organismo.posicion[1] * ancho_celda)
+        ventana.blit(organismo.imagen, posicion)
 
 
-    ventana.blit(presa1.imagen, (presa1.posicion[0] * ancho_celda, presa1.posicion[1] * ancho_celda))
-    ventana.blit(presa2.imagen, (presa2.posicion[0] * ancho_celda, presa2.posicion[1] * ancho_celda))
-    ventana.blit(presa3.imagen, (presa3.posicion[0] * ancho_celda, presa3.posicion[1] * ancho_celda))
-    ventana.blit(presa4.imagen, (presa4.posicion[0] * ancho_celda, presa4.posicion[1] * ancho_celda))
-    ventana.blit(presa5.imagen, (presa5.posicion[0] * ancho_celda, presa5.posicion[1] * ancho_celda))
+    if eventos_registrados:
+        ultimo_evento = eventos_registrados[-1]
+        mensaje_evento = f"Evento: {nombre_evento}, Filas Afectadas: {ultimo_evento['filas_afectadas']}, Columnas Afectadas: {ultimo_evento['columnas_afectadas']}"
+        fuente_evento = pygame.font.SysFont(None, 24)
+        texto_evento = fuente_evento.render(mensaje_evento, True, (255, 255, 255))
 
-    ventana.blit(planta1.imagen, (planta1.posicion[0] * ancho_celda, planta1.posicion[1] * ancho_celda))
-    ventana.blit(planta2.imagen, (planta2.posicion[0] * ancho_celda, planta2.posicion[1] * ancho_celda))
-    ventana.blit(planta3.imagen, (planta3.posicion[0] * ancho_celda, planta3.posicion[1] * ancho_celda))
-    ventana.blit(planta4.imagen, (planta4.posicion[0] * ancho_celda, planta4.posicion[1] * ancho_celda))
-    ventana.blit(planta5.imagen, (planta5.posicion[0] * ancho_celda, planta5.posicion[1] * ancho_celda))
-
-
-    for i, evento in enumerate(eventos_registrados):
-        mensaje = f"Evento {i + 1}: {nombre_evento}, Filas Afectadas: {evento['filas_afectadas']}, Columnas Afectadas: {evento['columnas_afectadas']}"
-        fuente = pygame.font.SysFont(None, 24)
-        texto = fuente.render(mensaje, True, (255, 255, 255))
-        ventana.blit(texto, (10, (filas + i) * ancho_celda))
-
+        ventana.blit(texto_evento, (10, filas * ancho_celda))
+        
 matriz = generar_desierto()
 eventos = Eventos(filas, columnas)
 monitoreo = Monitoreo()
 
+while True:
+    for evento in pygame.event.get():
+        if evento.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
 
-
-
-presas = [planta1, planta2, planta3, planta4, planta5]
-
-
-
-for animal in [animal1, animal2, animal3, animal4, animal5]:
-    animal.mover()
-    animal.cazar(presas)  
-
-
-    for presa in [presa1, presa2, presa3, presa4, presa5]:
-        presa.mover(filas, columnas)
+    eventos.evento_aleatorio(matriz)
 
     filas_afectadas = eventos.filas_afectadas
     columnas_afectadas = eventos.columnas_afectadas
 
-
+    monitoreo.recopilar_datos(eventos.tipo_evento, filas_afectadas, columnas_afectadas)
 
     ventana.fill((255, 255, 255))
 
     nombre_evento = eventos.obtener_nombre()
 
-    dibujar_desierto(matriz, monitoreo.log, nombre_evento, planta1, planta2, planta3, planta4, planta5, animal1, animal2, animal3, animal4, animal5, presa1, presa2, presa3, presa4, presa5)
+    dibujar_desierto(matriz, monitoreo.log, nombre_evento, plantas, organismos)
     eventos.color(matriz)
 
     if len(monitoreo.log) > 2:
