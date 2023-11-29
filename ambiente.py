@@ -6,7 +6,6 @@ from eventos import Eventos
 from monitoreo import Monitoreo
 from organismos import planta1, planta2, planta3, planta4, planta5, leon1, leon2, coyote1, coyote2, serpiente1, serpiente2, caracal1, caracal2, escorpion1, escorpion2, raton1, raton2, lagartija1, lagartija2, pajaro1, pajaro2, gacela1, gacela2, tortuga1, tortuga2
 
-
 pygame.init()
 
 filas = 20
@@ -24,6 +23,7 @@ alto_imagen = 30
 
 plantas = [planta1, planta2, planta3, planta4, planta5]
 organismos = [leon1, leon2, coyote1, coyote2, serpiente1, serpiente2, caracal1, caracal2, escorpion1, escorpion2, raton1, raton2, lagartija1, lagartija2, pajaro1, pajaro2, gacela1, gacela2, tortuga1, tortuga2]
+
 
 for planta in plantas:
     planta.imagen = pygame.transform.scale(planta.imagen, (ancho_imagen_planta, alto_imagen_planta))
@@ -78,7 +78,9 @@ def dibujar_desierto(matriz, eventos_registrados, nombre_evento, plantas, organi
 
     for i in range(filas, filas + 2):
         pygame.draw.rect(ventana, (0, 0, 0), (0, i * ancho_celda, ancho, ancho_celda))
-
+        
+    for organismo in organismos:
+        ventana.blit(organismo.imagen, (organismo.posicion[0] * ancho_celda, organismo.posicion[1] * ancho_celda))
 
     for planta in plantas:
         posicion = (planta.posicion[0] * ancho_celda, planta.posicion[1] * ancho_celda)
@@ -108,6 +110,9 @@ while True:
             sys.exit()
 
     eventos.evento_aleatorio(matriz)
+
+    for organismo in organismos:
+        organismo.mover(filas, columnas)
 
     filas_afectadas = eventos.filas_afectadas
     columnas_afectadas = eventos.columnas_afectadas
