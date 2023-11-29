@@ -122,9 +122,9 @@ def dibujar_desierto(matriz, eventos_registrados, nombre_evento, plantas, organi
 
 matriz = generar_desierto()
 eventos = Eventos(filas, columnas)
-monitoreo = Monitoreo()
+monitoreo = Monitoreo(organismos)
 tasa_reproduccion = 0.2
-mostrar_grafico = False
+
 
 while True:
     for event in pygame.event.get():
@@ -153,8 +153,8 @@ while True:
                     eventos.tornado(matriz, organismos)
                     eventos.tiempo_impacto = pygame.time.get_ticks()
                 elif event.ui_element == button_grafico:
-                    # Marcar que se debe mostrar el gráfico
-                    mostrar_grafico = True
+                    monitoreo.mostrar_grafico()
+
 
     evento_manager.update(30)
 
@@ -184,17 +184,7 @@ while True:
     dibujar_desierto(matriz, monitoreo.log, nombre_evento, plantas, organismos)
     eventos.color(matriz)
 
-    # Verificar si se debe mostrar el gráfico
-    if mostrar_grafico:
-        # Lógica para mostrar el gráfico (por ejemplo, utilizando Pygame y Matplotlib)
-        especies, cantidades = monitoreo.contar_especies(organismos)
-        monitoreo.mostrar_grafico_en_evento(especies, cantidades)
-        # Reiniciar la bandera después de mostrar el gráfico
-        mostrar_grafico = False
-
-    if len(monitoreo.log) > 2:
-        monitoreo.analisis()
 
     evento_manager.draw_ui(ventana)
     pygame.display.flip()
-    pygame.time.Clock().tick(30)
+    pygame.time.Clock().tick(1)

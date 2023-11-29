@@ -1,11 +1,14 @@
 import matplotlib.pyplot as plt
-import numpy as np
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from tkinter import Tk, Canvas
+
 
 class Monitoreo:
-    def __init__(self):
+    def __init__(self, organismos):
         self.log = []   
         self.contador = {'leon': 0, 'coyote': 0, 'serpiente': 0, 'caracal': 0, 'escorpion': 0, 'raton': 0, 'lagartija': 0, 'pajaro': 0, 'gacela': 0, 'tortuga': 0}
-
+        self.organismos = organismos
+        
     def recopilar_datos(self, tipo_evento, filas_afectadas, columnas_afectadas):
         evento = {
             'tipo_evento': tipo_evento,  
@@ -40,14 +43,16 @@ class Monitoreo:
         # Cada 30 segundos, realiza el análisis y muestra el gráfico
         if len(self.log) > 0 and len(self.log) % 3 == 0:  # Analiza cada 3 eventos
             self.contar_especies(organismos)
-            self.mostrar_grafico()
 
     def mostrar_grafico(self):
-        especies = list(self.contador.keys())
-        cantidades = list(self.contador.values())
-        # Crear un gráfico de barras
-        plt.bar(especies, cantidades, color='blue')
-        plt.xlabel('Especies')
-        plt.ylabel('Cantidad')
-        plt.title('Evolución de la cantidad de animales de cada especie')
+        especies, cantidades = self.contar_especies(self.organismos)
+
+        fig, ax = plt.subplots()
+        ax.bar(especies, cantidades)
+
+        ax.set_ylabel('Cantidad')
+        ax.set_xlabel('Especies')
+        ax.set_title('Cantidad de animales por especie')
+
+        # Muestra el gráfico
         plt.show()
