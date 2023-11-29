@@ -4,7 +4,7 @@ import random
 import time
 from eventos import Eventos
 from monitoreo import Monitoreo
-from organismos import planta1, planta2, planta3, planta4, planta5
+from organismos import planta1, planta2, planta3, planta4, planta5, leon1, leon2, coyote1, coyote2, serpiente1, serpiente2, caracal1, caracal2, escorpion1, escorpion2, raton1, raton2, lagartija1, lagartija2, pajaro1, pajaro2, gacela1, gacela2, tortuga1, tortuga2
 
 
 pygame.init()
@@ -19,14 +19,23 @@ alto = (filas + 2) * ancho_celda
 
 ancho_imagen_planta = 30
 alto_imagen_planta = 30
+ancho_imagen = 30
+alto_imagen = 30
 
 plantas = [planta1, planta2, planta3, planta4, planta5]
+organismos = [leon1, leon2, coyote1, coyote2, serpiente1, serpiente2, caracal1, caracal2, escorpion1, escorpion2, raton1, raton2, lagartija1, lagartija2, pajaro1, pajaro2, gacela1, gacela2, tortuga1, tortuga2]
 
 for planta in plantas:
     planta.imagen = pygame.transform.scale(planta.imagen, (ancho_imagen_planta, alto_imagen_planta))
     
 for planta in plantas:
     planta.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
+    
+for organismo in organismos:
+    organismo.imagen = pygame.transform.scale(organismo.imagen, (ancho_imagen, alto_imagen))
+    
+for organismo in organismos:
+    organismo.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
     
     
 ventana = pygame.display.set_mode((ancho, alto))
@@ -44,7 +53,8 @@ def generar_desierto():
 
     return matriz
 
-def dibujar_desierto(matriz, eventos_registrados, nombre_evento, planta1, planta2, planta3, planta4, planta5):
+def dibujar_desierto(matriz, eventos_registrados, nombre_evento, plantas, organismos):
+
     for fila in range(filas):
         for columna in range(columnas):
             x = columna * ancho_celda
@@ -73,6 +83,10 @@ def dibujar_desierto(matriz, eventos_registrados, nombre_evento, planta1, planta
     for planta in plantas:
         posicion = (planta.posicion[0] * ancho_celda, planta.posicion[1] * ancho_celda)
         ventana.blit(planta.imagen, posicion)
+        
+    for organismo in organismos:
+        posicion = (organismo.posicion[0] * ancho_celda, organismo.posicion[1] * ancho_celda)
+        ventana.blit(organismo.imagen, posicion)
 
 
     if eventos_registrados:
@@ -104,7 +118,7 @@ while True:
 
     nombre_evento = eventos.obtener_nombre()
 
-    dibujar_desierto(matriz, monitoreo.log, nombre_evento, planta1, planta2, planta3, planta4, planta5)
+    dibujar_desierto(matriz, monitoreo.log, nombre_evento, plantas, organismos)
     eventos.color(matriz)
 
     if len(monitoreo.log) > 2:
