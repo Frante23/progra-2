@@ -4,10 +4,8 @@ import random
 import time
 from eventos import Eventos
 from monitoreo import Monitoreo
-from organismos import Animal, Presa
 from organismos import planta1, planta2, planta3, planta4, planta5
-from organismos import animal1, animal2, animal3, animal4, animal5, animal6, animal7, animal8, animal9, animal10
-from organismos import presa1, presa2, presa3, presa4, presa5, presa6, presa7, presa8, presa9, presa10
+
 
 pygame.init()
 
@@ -19,29 +17,14 @@ tamano_oasis = 5
 ancho = columnas * ancho_celda
 alto = (filas + 2) * ancho_celda
 
-
-ancho_imagen = 30
-alto_imagen = 30
 ancho_imagen_planta = 30
 alto_imagen_planta = 30
 
-animales = [animal1, animal2, animal3, animal4, animal5, animal6, animal7, animal8, animal9, animal10]
-presas = [presa1, presa2, presa3, presa4, presa5, presa6, presa7, presa8, presa9, presa10]
 plantas = [planta1, planta2, planta3, planta4, planta5]
-
-for animal in animales:
-    animal.imagen = pygame.transform.scale(animal.imagen, (ancho_imagen, alto_imagen))
-
-for presa in presas:
-    presa.imagen = pygame.transform.scale(presa.imagen, (ancho_imagen, alto_imagen))
 
 for planta in plantas:
     planta.imagen = pygame.transform.scale(planta.imagen, (ancho_imagen_planta, alto_imagen_planta))
-
-
-for presa in presas:
-    presa.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
-
+    
 for planta in plantas:
     planta.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
     
@@ -86,11 +69,6 @@ def dibujar_desierto(matriz, eventos_registrados, nombre_evento, planta1, planta
     for i in range(filas, filas + 2):
         pygame.draw.rect(ventana, (0, 0, 0), (0, i * ancho_celda, ancho, ancho_celda))
 
-    for animal in animales:
-        ventana.blit(animal.imagen, (animal.posicion[0] * ancho_celda, animal.posicion[1] * ancho_celda))
-
-    for presa in presas:
-        ventana.blit(presa.imagen, (presa.posicion[0] * ancho_celda, presa.posicion[1] * ancho_celda))
 
     for planta in plantas:
         posicion = (planta.posicion[0] * ancho_celda, planta.posicion[1] * ancho_celda)
@@ -114,29 +92,6 @@ while True:
         if evento.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-
-    for animal in animales:
-        animal.mover(filas, columnas)
-
-    # Verificar reproducción entre animales
-    nuevos_animales = []
-    for animal1 in animales:
-        for animal2 in animales:
-            if animal1 != animal2:
-                info_nuevo_animal = animal1.reproducir(animal2)
-                if info_nuevo_animal is not None:
-                    # Usa 'imagen_path' del diccionario info_nuevo_animal
-                    nuevo_animal = Animal(**info_nuevo_animal)
-
-                    nuevos_animales.append(nuevo_animal)
-
-
-    # Agregar los nuevos animales al arreglo de animales
-    animales.extend(nuevos_animales)
-    
-    
-    for presa in [presa1, presa2, presa3, presa4, presa5]:
-        presa.mover(filas, columnas)
 
     eventos.evento_aleatorio(matriz)
 
