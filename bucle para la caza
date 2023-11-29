@@ -1,0 +1,31 @@
+presas = [raton1, raton2, lagartija1, lagartija2, pajaro1, pajaro2, gacela1, gacela2, tortuga1, tortuga2]
+
+while True:
+    for evento in pygame.event.get():
+        if evento.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+    eventos.evento_aleatorio(matriz)
+
+    for organismo in organismos:
+        if isinstance(organismo, Animal):
+            organismo.mover(filas, columnas, presas)
+
+    filas_afectadas = eventos.filas_afectadas
+    columnas_afectadas = eventos.columnas_afectadas
+
+    monitoreo.recopilar_datos(eventos.tipo_evento, filas_afectadas, columnas_afectadas)
+
+    ventana.fill((255, 255, 255))
+
+    nombre_evento = eventos.obtener_nombre()
+
+    dibujar_desierto(matriz, monitoreo.log, nombre_evento, plantas, organismos)
+    eventos.color(matriz)
+
+    if len(monitoreo.log) > 2:
+        monitoreo.analisis()
+
+    pygame.display.flip()
+    pygame.time.Clock().tick(1)
