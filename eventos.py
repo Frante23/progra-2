@@ -28,15 +28,15 @@ class Eventos:
         self.tipo_evento = None
         self.tiempo_limpiar = None
 
-    def evento_aleatorio(self, matriz):
+    def evento_aleatorio(self, matriz, organismos):  # Agregamos 'organismos' como parámetro
         if self.tiempo_limpiar is not None and pygame.time.get_ticks() - self.tiempo_limpiar >= 5000:
             self.reiniciar_datos()
-        
+
         # Verifica si ha pasado 1 minuto desde el último meteorito
         if pygame.time.get_ticks() - self.siguiente_meteorito >= 15000:
-            self.tipo_evento = 'Meteorito'  
+            self.tipo_evento = 'Meteorito'
             self.matriz_original = [fila[:] for fila in matriz]
-            self.meteorito(matriz)
+            self.meteorito(matriz, organismos)  # Pasamos 'organismos'
             self.tiempo_impacto = pygame.time.get_ticks()
             self.siguiente_meteorito = pygame.time.get_ticks()
             
@@ -45,7 +45,7 @@ class Eventos:
         if pygame.time.get_ticks() - self.siguiente_terremoto >= 120000:
             self.tipo_evento = 'Terremoto'
             self.matriz_original = [fila[:] for fila in matriz]
-            self.terremoto(matriz)
+            self.terremoto(matriz, organismos)
             self.tiempo_impacto = pygame.time.get_ticks()
             self.siguiente_terremoto = pygame.time.get_ticks()
 
@@ -53,7 +53,7 @@ class Eventos:
         if pygame.time.get_ticks() - self.siguiente_tornado >= 90000:
             self.tipo_evento = 'Tornado'
             self.matriz_original = [fila[:] for fila in matriz]
-            self.tornado(matriz)
+            self.tornado(matriz, organismos)
             self.tiempo_impacto = pygame.time.get_ticks()
             self.siguiente_tornado = pygame.time.get_ticks()
 
@@ -65,8 +65,16 @@ class Eventos:
             self.filas_afectadas.clear()
             self.columnas_afectadas.clear()
             self.tiempo_limpiar = pygame.time.get_ticks()
+            
+    def afecta_posicion(self, fila, columna):
+        return fila in self.filas_afectadas and columna in self.columnas_afectadas
 
-    def meteorito(self, matriz):
+    def impacto_organismos(self, organismos):
+        for organismo in organismos:
+            if self.afecta_posicion(organismo.posicion[1], organismo.posicion[0]):
+                organismos.remove(organismo)
+
+    def meteorito(self, matriz, organismos):
         fila_meteorito = random.randint(0, self.filas - 1)
         columna_meteorito = random.randint(0, self.columnas - 1)
 
@@ -86,8 +94,9 @@ class Eventos:
                 self.tipo_evento = 'Meteorito'
                 self.nombre_evento = 'Meteorito'
                 print("Tipo de evento:", self.tipo_evento)
+                self.impacto_organismos(organismos)
 
-    def terremoto(self, matriz):
+    def terremoto(self, matriz, organismos):
         fila_terremoto = random.randint(0, self.filas - 1)
         columna_terremoto = random.randint(0, self.columnas - 1)
 
@@ -107,8 +116,9 @@ class Eventos:
                     self.tipo_evento = 'Terremoto'
                     self.nombre_evento = 'Terremoto'
                     print("Tipo de evento:", self.tipo_evento)
+                    self.impacto_organismos(organismos)
                     
-    def tornado(self, matriz):
+    def tornado(self, matriz, organismos):
         fila_tornado = random.randint(0, self.filas - 1)
         columna_tornado = random.randint(0, self.columnas - 1)
 
@@ -127,6 +137,7 @@ class Eventos:
                     self.tipo_evento = 'Tornado'
                     self.nombre_evento = 'Tornado'
                     print("Tipo de evento:", self.tipo_evento)
+                    self.impacto_organismos(organismos)
 
 
     def color(self, matriz):

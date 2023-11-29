@@ -2,11 +2,13 @@ import pygame
 import sys
 import random
 import time
+import pygame_gui
 from eventos import Eventos
 from monitoreo import Monitoreo
 from organismos import planta1, planta2, planta3, planta4, planta5, leon1, leon2, coyote1, coyote2, serpiente1, serpiente2, caracal1, caracal2, escorpion1, escorpion2, raton1, raton2, lagartija1, lagartija2, pajaro1, pajaro2, gacela1, gacela2, tortuga1, tortuga2
 
 pygame.init()
+pygame.font.init()
 
 filas = 20
 columnas = 30
@@ -14,12 +16,31 @@ ancho_celda = 30
 tamano_oasis = 5
 
 ancho = columnas * ancho_celda
-alto = (filas + 2) * ancho_celda
+alto = (filas + 5) * ancho_celda  # Ajusta el número de filas agregadas (+7 en este ejemplo)
+
 
 ancho_imagen_planta = 30
 alto_imagen_planta = 30
 ancho_imagen = 30
 alto_imagen = 30
+
+
+# Configuración de la pantalla
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+ventana = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption('destruccion')
+
+# Inicializa el gestor de eventos
+evento_manager = pygame_gui.UIManager((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+button_rect = pygame.Rect(50, 550, 100, 50)
+button_meteorito = pygame_gui.elements.UIButton(relative_rect=button_rect, text='Meteorito', manager=evento_manager)
+button_rect.x += 120
+button_terremoto = pygame_gui.elements.UIButton(relative_rect=button_rect, text='Terremoto', manager=evento_manager)
+button_rect.x += 120
+button_tornado = pygame_gui.elements.UIButton(relative_rect=button_rect, text='Tornado', manager=evento_manager)
+
 
 plantas = [planta1, planta2, planta3, planta4, planta5]
 organismos = [leon1, leon2, coyote1, coyote2, serpiente1, serpiente2, caracal1, caracal2, escorpion1, escorpion2, raton1, raton2, lagartija1, lagartija2, pajaro1, pajaro2, gacela1, gacela2, tortuga1, tortuga2]
@@ -54,7 +75,6 @@ def generar_desierto():
     return matriz
 
 def dibujar_desierto(matriz, eventos_registrados, nombre_evento, plantas, organismos):
-
     for fila in range(filas):
         for columna in range(columnas):
             x = columna * ancho_celda
@@ -76,20 +96,19 @@ def dibujar_desierto(matriz, eventos_registrados, nombre_evento, plantas, organi
     for columna in range(columnas + 1):
         pygame.draw.line(ventana, (0, 0, 0), (columna * ancho_celda, 0), (columna * ancho_celda, alto), 2)
 
-    for i in range(filas, filas + 2):
-        pygame.draw.rect(ventana, (0, 0, 0), (0, i * ancho_celda, ancho, ancho_celda))
-        
+    for fila in range(filas, filas + 5): 
+        pygame.draw.rect(ventana, (0, 0, 0), (0, fila * ancho_celda, ancho, ancho_celda))
+
     for organismo in organismos:
         ventana.blit(organismo.imagen, (organismo.posicion[0] * ancho_celda, organismo.posicion[1] * ancho_celda))
 
     for planta in plantas:
         posicion = (planta.posicion[0] * ancho_celda, planta.posicion[1] * ancho_celda)
         ventana.blit(planta.imagen, posicion)
-        
+
     for organismo in organismos:
         posicion = (organismo.posicion[0] * ancho_celda, organismo.posicion[1] * ancho_celda)
         ventana.blit(organismo.imagen, posicion)
-
 
     if eventos_registrados:
         ultimo_evento = eventos_registrados[-1]
@@ -98,26 +117,54 @@ def dibujar_desierto(matriz, eventos_registrados, nombre_evento, plantas, organi
         texto_evento = fuente_evento.render(mensaje_evento, True, (255, 255, 255))
 
         ventana.blit(texto_evento, (10, filas * ancho_celda))
-        
+
 matriz = generar_desierto()
 eventos = Eventos(filas, columnas)
 monitoreo = Monitoreo()
 tasa_reproduccion = 0.2
 
 while True:
-    for evento in pygame.event.get():
-        if evento.type == pygame.QUIT:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
 
-    eventos.evento_aleatorio(matriz)
+        # Manejo de eventos de pygame_gui
+        evento_manager.process_events(event)
+
+        if event.type == pygame.USEREVENT:
+            if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                if event.ui_element == button_meteorito:
+                    eventos.tipo_evento = 'Meteorito'
+                    eventos.matriz_original = [fila[:] for fila in matriz]
+                    eventos.meteorito(matriz, organismos)  # Asegúrate de incluir 'organismos'
+                    eventos.tiempo_impacto = pygame.time.get_ticks()
+
+                elif event.ui_element == button_terremoto:
+                    eventos.tipo_evento = 'Terremoto'
+                    eventos.matriz_original = [fila[:] for fila in matriz]
+                    eventos.terremoto(matriz, organismos)  # Asegúrate de incluir 'organismos'
+                    eventos.tiempo_impacto = pygame.time.get_ticks()
+
+                elif event.ui_element == button_tornado:
+                    eventos.tipo_evento = 'Tornado'
+                    eventos.matriz_original = [fila[:] for fila in matriz]
+                    eventos.tornado(matriz, organismos)  # Asegúrate de incluir 'organismos'
+                    eventos.tiempo_impacto = pygame.time.get_ticks()
+
+    # ...
+
+
+    evento_manager.update(30)
+
+    eventos.evento_aleatorio(matriz, organismos)
 
     for organismo in organismos:
         organismo.mover(filas, columnas)
 
     for organismo in organismos:
-        if random.random() < tasa_reproduccion:  # Define tu propia tasa de reproducción
-            pareja = random.choice(organismos)  # Elige una pareja aleatoria
+        if random.random() < tasa_reproduccion:
+            pareja = random.choice(organismos)
             nuevo_organismo = organismo.reproducir(pareja)
 
             if nuevo_organismo is not None:
@@ -138,5 +185,6 @@ while True:
     if len(monitoreo.log) > 2:
         monitoreo.analisis()
 
+    evento_manager.draw_ui(ventana)
     pygame.display.flip()
     pygame.time.Clock().tick(1)
