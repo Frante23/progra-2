@@ -44,15 +44,17 @@ class Animal(Organismo):
 
         # Escala la imagen al tamaño deseado
         original_image = pygame.image.load(imagen_path)
-        self.imagen = pygame.transform.scale(original_image, (ancho_imagen, alto_imagen))  # Reemplaza nuevo_ancho y nuevo_alto con tus valores deseados
+        self.imagen = pygame.transform.scale(original_image, (ancho_imagen, alto_imagen))  
 
         if Animal.imagen_path is not None:
             self.imagen_path = Animal.imagen_path
 
         self.imagen = pygame.transform.scale(pygame.image.load(self.imagen_path), (ancho_imagen, alto_imagen))
-
-    def reproducir(self, pareja, imagen_path):
-        pass
+        
+    def cazar(self, presa, organismos):
+        if presa is not None:
+            presa.morir(organismos)
+            
 class Leon(Animal):
     imagen_path = "leon.png"
     nombre = "Leon"
@@ -78,7 +80,7 @@ class Coyote(Animal):
         super().__init__(posicion, vida, energia, velocidad, dieta, id_coyote, imagen_path, filas=filas, columnas=columnas)
         self.id_coyote = id_coyote
 
-    def cazar(self, presa):
+    def cazar(self, presa, organismos):
         pass
 
     def reproducir(self, pareja):
@@ -99,7 +101,7 @@ class Serpiente(Animal):
         super().__init__(posicion, vida, energia, velocidad, dieta, id_serpiente, imagen_path, filas=filas, columnas=columnas)
         self.id_serpiente = id_serpiente
 
-    def cazar(self, presa):
+    def cazar(self, presa, organismos):
         pass
 
     def reproducir(self, pareja):
@@ -119,7 +121,7 @@ class Escorpion(Animal):
         super().__init__(posicion, vida, energia, velocidad, dieta, id_escorpion, imagen_path, filas=filas, columnas=columnas)
         self.id_escorpion = id_escorpion
 
-    def cazar(self, presa):
+    def cazar(self, presa, organismos):
         pass
 
     def reproducir(self, pareja):
@@ -142,7 +144,7 @@ class Caracal(Animal):
         super().__init__(posicion, vida, energia, velocidad, dieta, id_caracal, imagen_path, filas=filas, columnas=columnas)
         self.id_caracal = id_caracal
 
-    def cazar(self, presa):
+    def cazar(self, presa, organismos):
         pass
 
     def reproducir(self, pareja):
@@ -178,9 +180,10 @@ class Presa(Organismo):
 
         self.posicion = nueva_posicion
     
-    def reproducir(self, pareja):
-        # Implementa la lógica de reproducción aquí
-        pass
+    def morir(self, organismos):
+        # Elimina la presa de la lista de organismos
+        if self in organismos:
+            organismos.remove(self)
     
 class Raton(Presa):
     nombre = "Raton"
