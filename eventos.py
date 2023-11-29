@@ -28,24 +28,23 @@ class Eventos:
         self.tipo_evento = None
         self.tiempo_limpiar = None
 
-    def evento_aleatorio(self, matriz, organismos):  # Agregamos 'organismos' como parámetro
+    def evento_aleatorio(self, matriz, organismos, plantas):
         if self.tiempo_limpiar is not None and pygame.time.get_ticks() - self.tiempo_limpiar >= 5000:
             self.reiniciar_datos()
 
         # Verifica si ha pasado 1 minuto desde el último meteorito
-        if pygame.time.get_ticks() - self.siguiente_meteorito >= 15000:
+        if pygame.time.get_ticks() - self.siguiente_meteorito >= 100000:
             self.tipo_evento = 'Meteorito'
             self.matriz_original = [fila[:] for fila in matriz]
-            self.meteorito(matriz, organismos)  # Pasamos 'organismos'
+            self.meteorito(matriz, organismos, plantas)  # Pasamos 'organismos' y 'plantas'
             self.tiempo_impacto = pygame.time.get_ticks()
             self.siguiente_meteorito = pygame.time.get_ticks()
-            
 
         # Verifica si han pasado 2 minutos desde el último terremoto
         if pygame.time.get_ticks() - self.siguiente_terremoto >= 120000:
             self.tipo_evento = 'Terremoto'
             self.matriz_original = [fila[:] for fila in matriz]
-            self.terremoto(matriz, organismos)
+            self.terremoto(matriz, organismos, plantas)  # Pasamos 'organismos' y 'plantas'
             self.tiempo_impacto = pygame.time.get_ticks()
             self.siguiente_terremoto = pygame.time.get_ticks()
 
@@ -53,7 +52,7 @@ class Eventos:
         if pygame.time.get_ticks() - self.siguiente_tornado >= 90000:
             self.tipo_evento = 'Tornado'
             self.matriz_original = [fila[:] for fila in matriz]
-            self.tornado(matriz, organismos)
+            self.tornado(matriz, organismos, plantas)  # Pasamos 'organismos' y 'plantas'
             self.tiempo_impacto = pygame.time.get_ticks()
             self.siguiente_tornado = pygame.time.get_ticks()
 
@@ -73,8 +72,13 @@ class Eventos:
         for organismo in organismos:
             if self.afecta_posicion(organismo.posicion[1], organismo.posicion[0]):
                 organismos.remove(organismo)
+                
+    def impacto_plantas(self, plantas):
+        plantas_clear = [planta for planta in plantas if self.afecta_posicion(planta.posicion[1], planta.posicion[0])]
+        for planta in plantas_clear:
+            plantas.remove(planta)
 
-    def meteorito(self, matriz, organismos):
+    def meteorito(self, matriz, organismos, plantas):
         fila_meteorito = random.randint(0, self.filas - 1)
         columna_meteorito = random.randint(0, self.columnas - 1)
 
@@ -95,8 +99,9 @@ class Eventos:
                 self.nombre_evento = 'Meteorito'
                 print("Tipo de evento:", self.tipo_evento)
                 self.impacto_organismos(organismos)
+                self.impacto_plantas(plantas)
 
-    def terremoto(self, matriz, organismos):
+    def terremoto(self, matriz, organismos, plantas):
         fila_terremoto = random.randint(0, self.filas - 1)
         columna_terremoto = random.randint(0, self.columnas - 1)
 
@@ -117,8 +122,9 @@ class Eventos:
                     self.nombre_evento = 'Terremoto'
                     print("Tipo de evento:", self.tipo_evento)
                     self.impacto_organismos(organismos)
+                    self.impacto_plantas(plantas)
                     
-    def tornado(self, matriz, organismos):
+    def tornado(self, matriz, organismos, plantas):
         fila_tornado = random.randint(0, self.filas - 1)
         columna_tornado = random.randint(0, self.columnas - 1)
 
@@ -138,6 +144,7 @@ class Eventos:
                     self.nombre_evento = 'Tornado'
                     print("Tipo de evento:", self.tipo_evento)
                     self.impacto_organismos(organismos)
+                    self.impacto_plantas(plantas)
 
 
     def color(self, matriz):

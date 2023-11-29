@@ -18,9 +18,6 @@ tamano_oasis = 5
 ancho = columnas * ancho_celda
 alto = (filas + 5) * ancho_celda  # Ajusta el número de filas agregadas (+7 en este ejemplo)
 
-
-ancho_imagen_planta = 30
-alto_imagen_planta = 30
 ancho_imagen = 30
 alto_imagen = 30
 
@@ -49,7 +46,7 @@ organismos = [leon1, leon2, coyote1, coyote2, serpiente1, serpiente2, caracal1, 
 
 
 for planta in plantas:
-    planta.imagen = pygame.transform.scale(planta.imagen, (ancho_imagen_planta, alto_imagen_planta))
+    planta.imagen = pygame.transform.scale(planta.imagen, (ancho_imagen, alto_imagen))
     
 for planta in plantas:
     planta.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
@@ -124,7 +121,7 @@ matriz = generar_desierto()
 eventos = Eventos(filas, columnas)
 monitoreo = Monitoreo(organismos)
 tasa_reproduccion = 0.2
-
+pausar= False
 
 while True:
     for event in pygame.event.get():
@@ -140,25 +137,26 @@ while True:
                 if event.ui_element == button_meteorito:
                     eventos.tipo_evento = 'Meteorito'
                     eventos.matriz_original = [fila[:] for fila in matriz]
-                    eventos.meteorito(matriz, organismos)
+                    eventos.meteorito(matriz, organismos, plantas)
                     eventos.tiempo_impacto = pygame.time.get_ticks()
                 elif event.ui_element == button_terremoto:
                     eventos.tipo_evento = 'Terremoto'
                     eventos.matriz_original = [fila[:] for fila in matriz]
-                    eventos.terremoto(matriz, organismos)
+                    eventos.terremoto(matriz, organismos, plantas)
                     eventos.tiempo_impacto = pygame.time.get_ticks()
                 elif event.ui_element == button_tornado:
                     eventos.tipo_evento = 'Tornado'
                     eventos.matriz_original = [fila[:] for fila in matriz]
-                    eventos.tornado(matriz, organismos)
+                    eventos.tornado(matriz, organismos, plantas)
                     eventos.tiempo_impacto = pygame.time.get_ticks()
                 elif event.ui_element == button_grafico:
+                    pausar = True
                     monitoreo.mostrar_grafico()
 
 
     evento_manager.update(30)
 
-    eventos.evento_aleatorio(matriz, organismos)
+    eventos.evento_aleatorio(matriz, organismos, plantas)
 
     for organismo in organismos:
         organismo.mover(filas, columnas)
@@ -183,6 +181,7 @@ while True:
 
     dibujar_desierto(matriz, monitoreo.log, nombre_evento, plantas, organismos)
     eventos.color(matriz)
+
 
 
     evento_manager.draw_ui(ventana)

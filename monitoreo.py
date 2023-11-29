@@ -1,6 +1,4 @@
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from tkinter import Tk, Canvas
 
 
 class Monitoreo:
@@ -54,5 +52,4 @@ class Monitoreo:
         ax.set_xlabel('Especies')
         ax.set_title('Cantidad de animales por especie')
 
-        # Muestra el gráfico
         plt.show()
