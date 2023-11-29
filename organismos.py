@@ -61,7 +61,8 @@ class Leon(Animal):
 
     def reproducir(self, pareja):
         if isinstance(pareja, Leon):
-            nuevo_leon = Leon(posicion=(0, 0), vida=100, energia=50, velocidad=8, dieta='carnivoro', id_leon=21, imagen_path="leon.png", filas=self.filas, columnas=self.columnas)
+            nueva_posicion = pareja.posicion
+            nuevo_leon = Leon(posicion=nueva_posicion, vida=100, energia=50, velocidad=8, dieta='carnivoro', id_leon=21, imagen_path="leon.png", filas=self.filas, columnas=self.columnas)
             nuevo_leon.imagen = pygame.transform.scale(pygame.image.load("leon.png"), (ancho_imagen, alto_imagen))
             return nuevo_leon
         else:
@@ -80,7 +81,8 @@ class Coyote(Animal):
 
     def reproducir(self, pareja):
         if isinstance(pareja, Coyote):
-            nuevo_coyote = Coyote(posicion=(0, 0), vida=100, energia=50, velocidad=10, dieta='carnivoro', id_coyote=21, imagen_path="coyote.png", filas=self.filas, columnas=self.columnas)
+            nueva_posicion = pareja.posicion
+            nuevo_coyote = Coyote(posicion=nueva_posicion, vida=100, energia=50, velocidad=10, dieta='carnivoro', id_coyote=21, imagen_path="coyote.png", filas=self.filas, columnas=self.columnas)
             nuevo_coyote.imagen = pygame.transform.scale(pygame.image.load("coyote.png"), (ancho_imagen, alto_imagen))
             return nuevo_coyote
         else:
@@ -99,7 +101,8 @@ class Serpiente(Animal):
 
     def reproducir(self, pareja):
         if isinstance(pareja, Serpiente):
-            nuevo_serpiente = Serpiente(posicion=(0, 0), vida=80, energia=40, velocidad=5, dieta='carnivoro', id_serpiente=21, imagen_path="serpiente.png", filas=self.filas, columnas=self.columnas)
+            nueva_posicion = pareja.posicion
+            nuevo_serpiente = Serpiente(posicion=nueva_posicion, vida=80, energia=40, velocidad=5, dieta='carnivoro', id_serpiente=21, imagen_path="serpiente.png", filas=self.filas, columnas=self.columnas)
             nuevo_serpiente.imagen = pygame.transform.scale(pygame.image.load("serpiente.png"), (ancho_imagen, alto_imagen))
             return nuevo_serpiente
         else:
@@ -120,7 +123,8 @@ class Escorpion(Animal):
 
     def reproducir(self, pareja):
         if isinstance(pareja, Escorpion):
-            nuevo_escorpion = Escorpion(posicion=(0, 0), vida=70, energia=35, velocidad=8, dieta='carnivoro', id_escorpion=11, imagen_path="escorpion.png", filas=self.filas, columnas=self.columnas)
+            nueva_posicion = pareja.posicion
+            nuevo_escorpion = Escorpion(posicion=nueva_posicion, vida=70, energia=35, velocidad=8, dieta='carnivoro', id_escorpion=11, imagen_path="escorpion.png", filas=self.filas, columnas=self.columnas)
             nuevo_escorpion.imagen = pygame.transform.scale(pygame.image.load("escorpion.png"), (ancho_imagen, alto_imagen))
             return nuevo_escorpion
         else:
@@ -141,7 +145,8 @@ class Caracal(Animal):
 
     def reproducir(self, pareja):
         if isinstance(pareja, Caracal):
-            nuevo_caracal = Caracal(posicion=(0, 0), vida=90, energia=45, velocidad=12, dieta='carnivoro', id_caracal=21, imagen_path="caracal.png", filas=self.filas, columnas=self.columnas)
+            nueva_posicion = pareja.posicion
+            nuevo_caracal = Caracal(posicion=nueva_posicion, vida=90, energia=45, velocidad=12, dieta='carnivoro', id_caracal=21, imagen_path="caracal.png", filas=self.filas, columnas=self.columnas)
             nuevo_caracal.imagen = pygame.transform.scale(pygame.image.load("caracal.png"), (ancho_imagen, alto_imagen))
             return nuevo_caracal
         else:
@@ -183,7 +188,8 @@ class Raton(Presa):
     def reproducir(self, pareja):
         if isinstance(pareja, Raton):
             # Lógica de reproducción de ratones
-            nuevo_raton = Raton(posicion=(0, 0), vida=30, energia=20, velocidad=5, plantas_alimento=(planta1, planta2, planta3, planta4, planta5), imagen_path="raton.png", id_raton=22)
+            nueva_posicion = pareja.posicion
+            nuevo_raton = Raton(posicion=nueva_posicion, vida=30, energia=20, velocidad=5, plantas_alimento=(planta1, planta2, planta3, planta4, planta5), imagen_path="raton.png", id_raton=22)
             nuevo_raton.imagen = pygame.transform.scale(pygame.image.load("raton.png"), (ancho_imagen, alto_imagen))  # Ajusta las dimensiones
             return nuevo_raton
         else:
@@ -197,7 +203,8 @@ class Lagartija(Presa):
     def reproducir(self, pareja):
         if isinstance(pareja, Lagartija):
             # Lógica de reproducción de ratones
-            nuevo_lagartija = Lagartija(posicion=(0, 0), vida=30, energia=20, velocidad=5, plantas_alimento=(planta1, planta2, planta3, planta4, planta5), imagen_path="lagartija.png", id_lagartija=22)
+            nueva_posicion = pareja.posicion
+            nuevo_lagartija = Lagartija(posicion=nueva_posicion, vida=30, energia=20, velocidad=5, plantas_alimento=(planta1, planta2, planta3, planta4, planta5), imagen_path="lagartija.png", id_lagartija=22)
             nuevo_lagartija.imagen = pygame.transform.scale(pygame.image.load("lagartija.png"), (ancho_imagen, alto_imagen))  # Ajusta las dimensiones
             return nuevo_lagartija
         else:
@@ -210,7 +217,8 @@ class Pajaro(Presa):
     def reproducir(self, pareja):
         if isinstance(pareja, Pajaro):
             # Lógica de reproducción de ratones
-            nuevo_pajaro = Pajaro(posicion=(0, 0), vida=30, energia=20, velocidad=5, plantas_alimento=(planta1, planta2, planta3, planta4, planta5), imagen_path="pajaro.png", id_pajaro=22)
+            nueva_posicion = pareja.posicion
+            nuevo_pajaro = Pajaro(posicion=nueva_posicion, vida=30, energia=20, velocidad=5, plantas_alimento=(planta1, planta2, planta3, planta4, planta5), imagen_path="pajaro.png", id_pajaro=22)
             nuevo_pajaro.imagen = pygame.transform.scale(pygame.image.load("pajaro.png"), (ancho_imagen, alto_imagen))  # Ajusta las dimensiones
             return nuevo_pajaro
         else:
@@ -223,7 +231,8 @@ class Gacela(Presa):
     def reproducir(self, pareja):
         if isinstance(pareja, Gacela):
             # Lógica de reproducción de ratones
-            nuevo_gacela = Gacela(posicion=(0, 0), vida=30, energia=20, velocidad=5, plantas_alimento=(planta1, planta2, planta3, planta4, planta5), imagen_path="gacela.png", id_gacela=22)
+            nueva_posicion = pareja.posicion
+            nuevo_gacela = Gacela(posicion=nueva_posicion, vida=30, energia=20, velocidad=5, plantas_alimento=(planta1, planta2, planta3, planta4, planta5), imagen_path="gacela.png", id_gacela=22)
             nuevo_gacela.imagen = pygame.transform.scale(pygame.image.load("gacela.png"), (ancho_imagen, alto_imagen))  # Ajusta las dimensiones
             return nuevo_gacela
         else:
@@ -236,7 +245,8 @@ class Tortuga(Presa):
     def reproducir(self, pareja):
         if isinstance(pareja, Tortuga):
             # Lógica de reproducción de ratones
-            nuevo_tortuga = Tortuga(posicion=(0, 0), vida=30, energia=20, velocidad=5, plantas_alimento=(planta1, planta2, planta3, planta4, planta5), imagen_path="tortuga.png", id_tortuga=22)
+            nueva_posicion = pareja.posicion
+            nuevo_tortuga = Tortuga(posicion=nueva_posicion, vida=30, energia=20, velocidad=5, plantas_alimento=(planta1, planta2, planta3, planta4, planta5), imagen_path="tortuga.png", id_tortuga=22)
             nuevo_tortuga.imagen = pygame.transform.scale(pygame.image.load("tortuga.png"), (ancho_imagen, alto_imagen))  # Ajusta las dimensiones
             return nuevo_tortuga
         else:
