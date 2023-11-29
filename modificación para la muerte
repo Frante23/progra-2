@@ -1,0 +1,308 @@
+import random
+
+ancho_imagen = 30
+alto_imagen = 30
+filas = 20
+columnas = 30
+
+
+class Organismo:
+    def __init__(self, posicion, vida, energia, filas=None, columnas=None):
+        self.posicion = posicion
+        self.vida = vida
+        self.energia = energia
+        self.filas = filas
+        self.columnas = columnas
+
+    def mover(self, filas, columnas):
+        direccion = random.choice([(0, 1), (0, -1), (1, 0), (-1, 0)])
+        nueva_posicion = (self.posicion[0] + direccion[0], self.posicion[1] + direccion[1])
+
+        if (
+            self.columnas is not None and
+            self.filas is not None and
+            0 <= nueva_posicion[0] < self.columnas and
+            0 <= nueva_posicion[1] < self.filas
+        ):
+            self.posicion = nueva_posicion
+
+    def reproducir(self, pareja):
+        pass
+
+    def morir(self):
+        pass
+
+
+class Animal(Organismo):
+    imagen_path = None
+
+    def __init__(self, posicion, vida, energia, velocidad, dieta, id_animal, imagen_path=None, filas=None, columnas=None):
+        super().__init__(posicion, vida, energia, filas=filas, columnas=columnas)
+        self.velocidad = velocidad
+        self.dieta = dieta
+        self.id_animal = id_animal
+
+        if Animal.imagen_path is not None:
+            self.imagen_path = Animal.imagen_path
+            self.imagen = pygame.transform.scale(pygame.image.load(self.imagen_path), (ancho_imagen, alto_imagen))
+        elif imagen_path is not None:
+            self.imagen_path = imagen_path
+            self.imagen = pygame.transform.scale(pygame.image.load(self.imagen_path), (ancho_imagen, alto_imagen))
+        else:
+            raise ValueError("La ruta de la imagen no está configurada para la clase Animal")
+
+    def reproducir(self, pareja):
+        pass
+
+
+class Leon(Animal):
+    imagen_path = "leon.png"
+
+    def __init__(self, posicion, vida, energia, velocidad, dieta, id_leon, imagen_path=None, filas=None, columnas=None):
+        super().__init__(posicion, vida, energia, velocidad, dieta, id_leon, imagen_path, filas=filas, columnas=columnas)
+
+    def cazar(self, presa):
+        pass
+
+    def reproducir(self, pareja):
+        imagenes = [self.imagen_path]
+        if self.especie == pareja.especie:
+            distancia = abs(self.posicion[0] - pareja.posicion[0]) + abs(self.posicion[1] - pareja.posicion[1])
+            if distancia == 1:
+                return {
+                    'posicion': self.posicion,
+                    'vida': 100,
+                    'energia': 50,
+                    'velocidad': 5,
+                    'dieta': self.dieta,
+                    'imagen_path': imagenes,
+                    'id_animal': self.id_animal
+                }
+        return None
+
+
+class Coyote(Animal):
+    def __init__(self, posicion, vida, energia, velocidad, dieta, id_coyote, imagen_path=None, filas=None, columnas=None):
+        super().__init__(posicion, vida, energia, velocidad, dieta, id_coyote, imagen_path, filas=filas, columnas=columnas)
+        self.id_coyote = id_coyote
+
+    def cazar(self, presa):
+        pass
+
+    def reproducir(self, pareja):
+        imagenes = [self.imagen_path]
+        if self.especie == pareja.especie:
+            distancia = abs(self.posicion[0] - pareja.posicion[0]) + abs(self.posicion[1] - pareja.posicion[1])
+            if distancia == 1:
+                return {
+                    'posicion': self.posicion,
+                    'vida': 100,
+                    'energia': 50,
+                    'velocidad': 5,
+                    'dieta': self.dieta,
+                    'imagen_path': imagenes,
+                    'id_animal': self.id_animal
+                }
+        return None
+
+
+class Serpiente(Animal):
+    def __init__(self, posicion, vida, energia, velocidad, dieta, id_serpiente, imagen_path=None, filas=None, columnas=None):
+        super().__init__(posicion, vida, energia, velocidad, dieta, id_serpiente, imagen_path, filas=filas, columnas=columnas)
+        self.id_serpiente = id_serpiente
+
+    def cazar(self, presa):
+        pass
+
+    def reproducir(self, pareja):
+        imagenes = [self.imagen_path]
+        if self.especie == pareja.especie:
+            distancia = abs(self.posicion[0] - pareja.posicion[0]) + abs(self.posicion[1] - pareja.posicion[1])
+            if distancia == 1:
+                return {
+                    'posicion': self.posicion,
+                    'vida': 100,
+                    'energia': 50,
+                    'velocidad': 5,
+                    'dieta': self.dieta,
+                    'imagen_path': imagenes,
+                    'id_animal': self.id_animal
+                }
+        return None
+
+
+class Escorpion(Animal):
+    def __init__(self, posicion, vida, energia, velocidad, dieta, id_escorpion, imagen_path=None):
+        super().__init__(posicion, vida, energia, velocidad, dieta, id_escorpion, imagen_path)
+        self.id_escorpion = id_escorpion
+
+    def cazar(self, presa):
+        pass
+
+    def reproducir(self, pareja):
+        imagenes = [self.imagen_path]
+        if self.especie == pareja.especie:
+            distancia = abs(self.posicion[0] - pareja.posicion[0]) + abs(self.posicion[1] - pareja.posicion[1])
+            if distancia == 1:
+                return {
+                    'posicion': self.posicion,
+                    'vida': 100,
+                    'energia': 50,
+                    'velocidad': 5,
+                    'dieta': self.dieta,
+                    'imagen_path': imagenes,
+                    'id_animal': self.id_animal
+                }
+        return None
+
+
+class Caracal(Animal):
+    def __init__(self, posicion, vida, energia, velocidad, dieta, id_caracal, imagen_path=None):
+        super().__init__(posicion, vida, energia, velocidad, dieta, id_caracal, imagen_path)
+        self.id_caracal = id_caracal
+
+    def cazar(self, presa):
+        pass
+
+    def reproducir(self, pareja):
+        imagenes = [self.imagen_path]
+        if self.especie == pareja.especie:
+            distancia = abs(self.posicion[0] - pareja.posicion[0]) + abs(self.posicion[1] - pareja.posicion[1])
+            if distancia == 1:
+                return {
+                    'posicion': self.posicion,
+                    'vida': 100,
+                    'energia': 50,
+                    'velocidad': 5,
+                    'dieta': self.dieta,
+                    'imagen_path': imagenes,
+                    'id_animal': self.id_animal
+                }
+        return None
+
+
+class Presa(Organismo):
+    imagen_path = None
+
+    def __init__(self, posicion, vida, energia, velocidad, id_presa, imagen_path=None, filas=None, columnas=None):
+        super().__init__(posicion, vida, energia, filas=filas, columnas=columnas)
+        self.velocidad = velocidad
+        self.id_presa = id_presa
+
+        if Presa.imagen_path is not None:
+            self.imagen_path = Presa.imagen_path
+            self.imagen = pygame.transform.scale(pygame.image.load(self.imagen_path), (ancho_imagen, alto_imagen))
+        elif imagen_path is not None:
+            self.imagen_path = imagen_path
+            self.imagen = pygame.transform.scale(pygame.image.load(self.imagen_path), (ancho_imagen, alto_imagen))
+        else:
+            raise ValueError("La ruta de la imagen no está configurada para la clase Presa")
+
+    def morir(self):
+        pass
+
+    def reaparecer(self, filas, columnas):
+        self.posicion = (random.randint(0, columnas - 1), random.randint(0, filas - 1))
+
+    def morir(self):
+        pass
+
+
+class Raton(Presa):
+    imagen_path = "raton.png"
+
+    def __init__(self, posicion, vida, energia, velocidad, id_raton, imagen_path=None, filas=None, columnas=None):
+        super().__init__(posicion, vida, energia, velocidad, id_raton, imagen_path, filas=filas, columnas=columnas)
+
+    def morir(self):
+        pass
+
+
+class Lagartija(Presa):
+    imagen_path = "lagartija.png"
+
+    def __init__(self, posicion, vida, energia, velocidad, id_lagartija, imagen_path=None, filas=None, columnas=None):
+        super().__init__(posicion, vida, energia, velocidad, id_lagartija, imagen_path, filas=filas, columnas=columnas)
+
+    def morir(self):
+        pass
+
+
+class Pajaro(Presa):
+    imagen_path = "pajaro.png"
+
+    def __init__(self, posicion, vida, energia, velocidad, id_pajaro, imagen_path=None, filas=None, columnas=None):
+        super().__init__(posicion, vida, energia, velocidad, id_pajaro, imagen_path, filas=filas, columnas=columnas)
+
+    def morir(self):
+        pass
+
+
+class Gacela(Presa):
+    imagen_path = "gacela.png"
+
+    def __init__(self, posicion, vida, energia, velocidad, id_gacela, imagen_path=None, filas=None, columnas=None):
+        super().__init__(posicion, vida, energia, velocidad, id_gacela, imagen_path, filas=filas, columnas=columnas)
+
+    def morir(self):
+        pass
+
+
+class Tortuga(Presa):
+    imagen_path = "tortuga.png"
+
+    def __init__(self, posicion, vida, energia, velocidad, id_tortuga, imagen_path=None, filas=None, columnas=None):
+        super().__init__(posicion, vida, energia, velocidad, id_tortuga, imagen_path, filas=filas, columnas=columnas)
+
+    def morir(self):
+        pass
+
+
+class Planta(Organismo):
+    imagen_path = None
+
+    def __init__(self, posicion, vida, energia, id_planta, imagen_path=None, filas=None, columnas=None):
+        super().__init__(posicion, vida, energia, filas=filas, columnas=columnas)
+        self.id_planta = id_planta
+
+        if Planta.imagen_path is not None:
+            self.imagen_path = Planta.imagen_path
+            self.imagen = pygame.transform.scale(pygame.image.load(self.imagen_path), (ancho_imagen, alto_imagen))
+        elif imagen_path is not None:
+            self.imagen_path = imagen_path
+            self.imagen = pygame.transform.scale(pygame.image.load(self.imagen_path), (ancho_imagen, alto_imagen))
+        else:
+            raise ValueError("La ruta de la imagen no está configurada para la clase Planta")
+
+    def morir(self):
+        pass
+
+
+class Cactus(Planta):
+    imagen_path = "cactus.png"
+
+    def __init__(self, posicion, vida, energia, id_cactus, imagen_path=None, filas=None, columnas=None):
+        super().__init__(posicion, vida, energia, id_cactus, imagen_path, filas=filas, columnas=columnas)
+
+    def morir(self):
+        pass
+
+
+class Arbusto(Planta):
+    imagen_path = "arbusto.png"
+
+    def __init(self, posicion, vida, energia, id_arbusto, imagen_path=None, filas=None, columnas=None):
+        super().__init__(posicion, vida, energia, id_arbusto, imagen_path, filas=filas, columnas=columnas)
+
+    def morir(self):
+        pass
+
+
+class Pasto(Planta):
+    imagen_path = "pasto.png"
+
+    def __init__(self, posicion, vida, energia, id_pasto, imagen_path=None, filas=None, columnas=None):
+        super().__init__(posicion, vida, energia, id_pasto, imagen_path, filas=filas, columnas=columnas)
+
+    def morir(self):
+        pass
